@@ -1,5 +1,6 @@
 package org.bruno.product.infrastructure.web;
 
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -7,10 +8,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.bruno.product.application.ProductService;
-import org.bruno.product.domain.Product;
+import org.bruno.product.application.command.CreateProductCommand;
+import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.infrastructure.web.request.CreateProductRequest;
-import org.bruno.product.infrastructure.web.response.ProductResponse;
 
 import java.util.List;
 
@@ -27,20 +29,20 @@ public class ProductResource {
 
   @GET
   public List<ProductResponse> getProducts() {
-    return productService.findAll().stream()
-      .map(ProductResponse::fromDomain)
-      .toList();
+    return productService.findAll();
   }
 
   @GET
   @Path("/name/{name}")
   public ProductResponse getProductByName(@PathParam("name") String name) {
-    return ProductResponse.fromDomain(productService.findByName(name));
+    return productService.findByName(name);
   }
 
   @POST
-  public void createProduct(CreateProductRequest product) {
-    Product request = CreateProductRequest.create(product);
+  @Transactional
+  public Response createProduct(CreateProductRequest product) {
+    CreateProductCommand request = CreateProductRequest.create(product);
     productService.save(request);
+    return Response.status(Response.Status.CREATED).build();
   }
 }

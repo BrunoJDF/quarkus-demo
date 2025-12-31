@@ -1,4 +1,4 @@
-package org.bruno.product.infrastructure.web.response;
+package org.bruno.product.application.response;
 
 import org.bruno.product.domain.Product;
 

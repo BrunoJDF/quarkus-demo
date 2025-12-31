@@ -1,6 +1,6 @@
 package org.bruno.product.infrastructure.web.request;
 
-import org.bruno.product.domain.Product;
+import org.bruno.product.application.command.CreateProductCommand;
 
 import java.math.BigDecimal;
 
@@ -8,10 +8,10 @@ public record CreateProductRequest(
   String name,
   BigDecimal price
 ) {
-  public static Product create(CreateProductRequest product) {
-    Product newProduct = new Product();
-    newProduct.setName(product.name());
-    newProduct.setPrice(product.price());
-    return newProduct;
+  public static CreateProductCommand create(CreateProductRequest product) {
+    return new CreateProductCommand(
+      product.name(),
+      product.price()
+    );
   }
 }

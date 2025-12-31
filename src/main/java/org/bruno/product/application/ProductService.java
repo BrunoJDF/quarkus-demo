@@ -1,7 +1,8 @@
 package org.bruno.product.application;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import org.bruno.product.domain.Product;
+import org.bruno.product.application.command.CreateProductCommand;
+import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.domain.ProductRepository;
 
 import java.util.List;
@@ -14,16 +15,19 @@ public class ProductService {
     this.productRepository = productRepository;
   }
 
-  public List<Product> findAll() {
-    return productRepository.findAllProducts();
+  public List<ProductResponse> findAll() {
+    return productRepository.findAllProducts().parallelStream()
+      .map(ProductResponse::fromDomain)
+      .toList();
   }
 
-  public void save(Product product) {
-    productRepository.save(product);
+  public void save(CreateProductCommand product) {
+    productRepository.save(product.toDomain());
   }
 
-  public Product findByName(String name) {
+  public ProductResponse findByName(String name) {
     return productRepository.findByName(name)
+      .map(ProductResponse::fromDomain)
       .orElseThrow();
   }
 }
