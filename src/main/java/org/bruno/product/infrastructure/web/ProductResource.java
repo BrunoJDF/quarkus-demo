@@ -9,6 +9,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.bruno.product.application.ProductService;
 import org.bruno.product.domain.Product;
+import org.bruno.product.infrastructure.web.request.CreateProductRequest;
+import org.bruno.product.infrastructure.web.response.ProductResponse;
 
 import java.util.List;
 
@@ -17,24 +19,28 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class ProductResource {
 
-    private final ProductService productService;
+  private final ProductService productService;
 
-    public ProductResource(ProductService productService) {
-        this.productService = productService;
-    }
+  public ProductResource(ProductService productService) {
+    this.productService = productService;
+  }
 
-    @GET
-    public List<Product> getProducts() {
-        return productService.findAll();
-    }
+  @GET
+  public List<ProductResponse> getProducts() {
+    return productService.findAll().stream()
+      .map(ProductResponse::fromDomain)
+      .toList();
+  }
 
-    @GET
-    @Path("/name/{name}")
-    public Product getProductByName(@PathParam("name") String name) {
-        return productService.findByName(name);
-    }
+  @GET
+  @Path("/name/{name}")
+  public ProductResponse getProductByName(@PathParam("name") String name) {
+    return ProductResponse.fromDomain(productService.findByName(name));
+  }
 
-    @POST
-    public void createProduct(Product product) {
-    }
+  @POST
+  public void createProduct(CreateProductRequest product) {
+    Product request = CreateProductRequest.create(product);
+    productService.save(request);
+  }
 }

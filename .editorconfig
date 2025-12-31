@@ -1,0 +1,25 @@
+# top-most EditorConfig file
+root = true
+
+# Matches all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+max_line_length = 110
+
+# Matches java files
+[*.java]
+ij_java_class_count_to_use_import_on_demand = 9999
+ij_java_names_count_to_use_import_on_demand = 9999
+ij_java_spaces_around_assignment_operators = true
+ij_java_spaces_around_additive_operators = true
+ij_java_spaces_around_equality_operators = true
+ij_java_spaces_around_relational_operators = true
+ij_java_spaces_around_annotation_eq = true
+ij_java_spaces_around_logical_operators = true
+
+
