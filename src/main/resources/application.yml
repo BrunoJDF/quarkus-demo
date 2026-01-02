@@ -1,14 +1,13 @@
-greeting:
-  message: "hello"
-quarkus:
-  datasource:
-    db-kind: postgresql
-    username: root
-    password: pwd
-    jdbc:
-      url: jdbc:postgresql://localhost:5434/shopping-cart
-  hibernate-orm:
-    log:
-      sql: true
-    database:
-      default-schema: shopping_cart
+"%dev":
+  quarkus:
+    datasource:
+      db-kind: postgresql
+      username: root
+      password: pwd
+      jdbc:
+        url: jdbc:postgresql://localhost:5434/shopping-cart
+    hibernate-orm:
+      log:
+        sql: true
+      database:
+        default-schema: shopping_cart
