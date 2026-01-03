@@ -1,0 +1,51 @@
+package org.bruno.product.infrastructure.adapter;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import org.bruno.product.domain.port.ExchangeRatePort;
+import org.bruno.product.infrastructure.client.ExchangeClient;
+import org.bruno.product.infrastructure.client.dto.ExchangeDTO;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
+
+import java.math.BigDecimal;
+import java.util.Map;
+import java.util.Optional;
+
+@ApplicationScoped
+public class ExchangeRateAdapter implements ExchangeRatePort {
+
+  private static final Logger LOG = Logger.getLogger(ExchangeRateAdapter.class);
+  private final ExchangeClient exchangeClient;
+  private final String apiKey;
+
+  public ExchangeRateAdapter(
+    @RestClient ExchangeClient exchangeClient,
+    @ConfigProperty(name = "quarkus.rest-client.ex-change-client.api-key") String apiKey
+  ) {
+    this.exchangeClient = exchangeClient;
+    this.apiKey = apiKey;
+  }
+
+  @Override
+  public BigDecimal getConversionRate(String currencySource, String currencyTarget) {
+    ExchangeDTO exchangeDTO = exchangeClient.getExChangeDTO(apiKey, currencySource);
+    Map<String, BigDecimal> rates = getRates(exchangeDTO);
+    BigDecimal rate = getRateFromCurrency(rates, currencyTarget);
+
+    LOG.info("Rate for currency: " + currencyTarget + " is " + rate);
+    return rate;
+  }
+
+  private BigDecimal getRateFromCurrency(Map<String, BigDecimal> rates, String currencyTarget) {
+    return Optional.of(rates)
+      .map(map -> map.get(currencyTarget))
+      .orElseThrow();
+  }
+
+  private Map<String, BigDecimal> getRates(ExchangeDTO exchangeDTO) {
+    return Optional.ofNullable(exchangeDTO)
+      .map(ExchangeDTO::conversion_rates)
+      .orElseThrow();
+  }
+}

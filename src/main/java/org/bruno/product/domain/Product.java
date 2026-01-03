@@ -6,6 +6,7 @@ public class Product {
   private Long id;
   private String name;
   private BigDecimal price;
+  private BigDecimal priceConverted;
 
   public Long getId() {
     return id;
@@ -29,5 +30,13 @@ public class Product {
 
   public void setPrice(BigDecimal price) {
     this.price = price;
+  }
+
+  public BigDecimal getPriceConverted() {
+    return priceConverted;
+  }
+
+  public void setPriceConverted(BigDecimal priceConverted) {
+    this.priceConverted = priceConverted;
   }
 }

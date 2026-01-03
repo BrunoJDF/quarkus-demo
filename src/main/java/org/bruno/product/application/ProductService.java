@@ -4,15 +4,21 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.bruno.product.application.command.CreateProductCommand;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.domain.ProductRepository;
+import org.bruno.product.domain.port.ExchangeRatePort;
+import org.jboss.logging.Logger;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @ApplicationScoped
 public class ProductService {
+  private static final Logger LOG = Logger.getLogger(ProductService.class);
   private final ProductRepository productRepository;
+  private final ExchangeRatePort exchangeRatePort;
 
-  public ProductService(ProductRepository productRepository) {
+  public ProductService(ProductRepository productRepository, ExchangeRatePort exchangeRatePort) {
     this.productRepository = productRepository;
+    this.exchangeRatePort = exchangeRatePort;
   }
 
   public List<ProductResponse> findAll() {
@@ -26,8 +32,18 @@ public class ProductService {
   }
 
   public ProductResponse findByName(String name) {
-    return productRepository.findByName(name)
+    ProductResponse productResponse = productRepository.findByName(name)
+      .map(product -> {
+        BigDecimal conversionRate = exchangeRatePort.getConversionRate("USD", "PEN");
+        BigDecimal priceConverted = product.getPrice().multiply(conversionRate);
+        product.setPriceConverted(priceConverted);
+        return product;
+      })
       .map(ProductResponse::fromDomain)
       .orElseThrow();
+
+    LOG.info("Product found: " + productResponse);
+
+    return productResponse;
   }
 }

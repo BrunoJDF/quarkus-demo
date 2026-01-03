@@ -3,6 +3,7 @@ package org.bruno.product.application;
 import org.bruno.product.ProductUnitTestCase;
 import org.bruno.product.application.command.CreateProductCommand;
 import org.bruno.product.domain.ProductRepository;
+import org.bruno.product.domain.port.ExchangeRatePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -15,11 +16,14 @@ import static org.mockito.Mockito.mock;
 class ProductServiceUnitTest extends ProductUnitTestCase {
 
   private ProductService systemUnderTest;
+  private ProductRepository productRepository;
+  private ExchangeRatePort exchangeRatePort;
 
   @BeforeEach
   void setUp() {
-    ProductRepository productRepository = mock(ProductRepository.class);
-    systemUnderTest = new ProductService(productRepository);
+    productRepository = mock(ProductRepository.class);
+    exchangeRatePort = mock(ExchangeRatePort.class);
+    systemUnderTest = new ProductService(productRepository, exchangeRatePort);
   }
 
   @Test

@@ -1,5 +1,9 @@
 "%dev":
   quarkus:
+    rest-client:
+      ex-change-client:
+        url: https://v6.exchangerate-api.com
+        api-key: ${EXCHANGE_API_KEY:3f9d0e67d462c70ce2297172}
     datasource:
       db-kind: postgresql
       username: root
