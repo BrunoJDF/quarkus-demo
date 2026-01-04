@@ -4,6 +4,19 @@
       ex-change-client:
         url: https://v6.exchangerate-api.com
         api-key: ${EXCHANGE_API_KEY:3f9d0e67d462c70ce2297172}
+        connect-timeout: 5000 # 5 segundos para establecer la conexion
+        read-timeout: 10000 # 10 segundos para leer la respuesta
+        scope: jakarta.inject.Singleton # Nivel de logging para el cliente REST
+    log:
+      level: INFO
+      console:
+        format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+        enable: true
+      category:
+        "org.bruno.product": DEBUG # Logs de tu aplicación
+        "org.bruno.product.infrastructure.client": DEBUG # Logs del REST client
+        "io.quarkus.rest.client": DEBUG # Logs internos del REST client
+        "org.jboss.resteasy.reactive.client": TRACE # Debugging detallado (request/response)
     datasource:
       db-kind: postgresql
       username: root
