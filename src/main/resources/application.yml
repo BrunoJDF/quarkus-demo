@@ -20,13 +20,16 @@
         "io.quarkus.rest.client":
           level: DEBUG # Logs internos del REST client
         "org.jboss.resteasy.reactive.client":
-          level: TRACE # Debugging detallado (request/response)
+          level:
+          # Debugging detallado (request/response)
     datasource:
       db-kind: postgresql
       username: root
       password: pwd
       jdbc:
         url: jdbc:postgresql://localhost:5434/shopping-cart
+      reactive:
+        url: postgresql://localhost:5434/shopping-cart
     hibernate-orm:
       log:
         sql: true
