@@ -13,10 +13,14 @@
         format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
         enable: true
       category:
-        "org.bruno.product": DEBUG # Logs de tu aplicación
-        "org.bruno.product.infrastructure.client": DEBUG # Logs del REST client
-        "io.quarkus.rest.client": DEBUG # Logs internos del REST client
-        "org.jboss.resteasy.reactive.client": TRACE # Debugging detallado (request/response)
+        "org.bruno.product":
+          level: DEBUG # Logs de tu aplicación
+        "org.bruno.product.infrastructure.client":
+          level: DEBUG # Logs del REST client
+        "io.quarkus.rest.client":
+          level: DEBUG # Logs internos del REST client
+        "org.jboss.resteasy.reactive.client":
+          level: TRACE # Debugging detallado (request/response)
     datasource:
       db-kind: postgresql
       username: root
