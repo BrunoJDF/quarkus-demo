@@ -9,5 +9,4 @@ public record ErrorResponse(
   String message,
   ZonedDateTime timestamp
 ) {
-
 }

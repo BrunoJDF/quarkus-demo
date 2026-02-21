@@ -14,7 +14,7 @@ public class QSExceptionMapper implements ExceptionMapper<QSException> {
   public Response toResponse(QSException e) {
     CategoryErrorEnum category = CategoryErrorEnum.getByCode(e.getStatus().getStatusCode());
     return Response.status(e.getStatus())
-      .entity(new ErrorResponse(category, e.getMessage()))
+      .entity(new ErrorResponse(category, e.getMessage(), e.getTimestamp()))
       .build();
   }
 }
