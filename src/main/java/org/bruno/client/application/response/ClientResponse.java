@@ -1,5 +1,7 @@
 package org.bruno.client.application.response;
 
+import org.bruno.client.domain.Client;
+
 public record ClientResponse(
   Long id,
   String name,
@@ -11,7 +13,7 @@ public record ClientResponse(
   String address,
   String status
 ) {
-  public static ClientResponse fromDomain(org.bruno.client.domain.Client client) {
+  public static ClientResponse fromDomain(Client client) {
     String status = client.getStatus() != null ? client.getStatus().getDescription() : "INACTIVE";
 
     return new ClientResponse(

@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.bruno.product.application.command.CreateProductCommand;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.domain.ProductRepository;
+import org.bruno.shared.domain.exception.QSNotFoundException;
 import org.bruno.product.domain.port.ExchangeRatePort;
 import org.jboss.logging.Logger;
 
@@ -40,7 +41,7 @@ public class ProductService {
         return product;
       })
       .map(ProductResponse::fromDomain)
-      .orElseThrow();
+      .orElseThrow(() -> new QSNotFoundException("Product not found with name: " + name));
 
     LOG.info("Product found: " + productResponse);
 
