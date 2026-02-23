@@ -42,7 +42,9 @@ class ProductServiceUnitTest extends ProductUnitTestCase {
   @Test
   void findByName() {
     String name = "SampleProduct";
-    Executable execution = () -> systemUnderTest.findByName(name);
+    String source = "USD";
+    String target = "PEN";
+    Executable execution = () -> systemUnderTest.findByName(name, source, target);
     assertThrows(Exception.class, execution);
   }
 }

@@ -35,10 +35,12 @@ class ProductResourceUnitTest extends ProductUnitTestCase {
   @Test
   void getProductByName() {
     String name = "SampleProduct";
+    String source = "USD";
+    String target = "PEN";
     ProductResponse productResponse = mock(ProductResponse.class);
-    when(productService.findByName(name))
+    when(productService.findByName(name, source, target))
       .thenReturn(productResponse);
-    var res = systemUnderTest.getProductByName(name);
+    var res = systemUnderTest.getProductByName(name, source, target);
     assertNotNull(res);
   }
 

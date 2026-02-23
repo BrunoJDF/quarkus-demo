@@ -4,8 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.bruno.product.application.command.CreateProductCommand;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.domain.ProductRepository;
-import org.bruno.shared.domain.exception.QSNotFoundException;
 import org.bruno.product.domain.port.ExchangeRatePort;
+import org.bruno.shared.domain.exception.QSNotFoundException;
 import org.jboss.logging.Logger;
 
 import java.math.BigDecimal;
@@ -32,10 +32,10 @@ public class ProductService {
     productRepository.save(product.toDomain());
   }
 
-  public ProductResponse findByName(String name) {
+  public ProductResponse findByName(String name, String source, String target) {
     ProductResponse productResponse = productRepository.findByName(name)
       .map(product -> {
-        BigDecimal conversionRate = exchangeRatePort.getConversionRate("USD", "PEN");
+        BigDecimal conversionRate = exchangeRatePort.getConversionRate(source, target);
         BigDecimal priceConverted = product.getPrice().multiply(conversionRate);
         product.setPriceConverted(priceConverted);
         return product;

@@ -5,7 +5,6 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
@@ -34,9 +33,9 @@ public class ProductResource {
   }
 
   @GET
-  @Path("/name")
-  public ProductResponse getProductByName(@QueryParam("name") String name) {
-    return productService.findByName(name);
+  @Path("/get-by-conversion")
+  public ProductResponse getProductByName(@QueryParam("name") String name, @QueryParam("source") String source, @QueryParam("target") String target) {
+    return productService.findByName(name, source, target);
   }
 
   @POST
