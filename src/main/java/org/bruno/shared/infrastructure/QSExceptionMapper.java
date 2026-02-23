@@ -11,7 +11,7 @@ public class QSExceptionMapper implements ExceptionMapper<QSException> {
 
   @Override
   public Response toResponse(QSException e) {
-    return Response.status(Response.Status.NOT_FOUND)
+    return Response.status(ErrorStatusFactory.getResponseStatus(e))
       .entity(ErrorResponse.errorFactory(e))
       .build();
   }

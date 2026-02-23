@@ -3,11 +3,13 @@ package org.bruno.shared.domain.exception;
 import java.time.ZonedDateTime;
 
 public class QSException extends RuntimeException {
+  private final ErrorStatus status;
   private final String message;
   private final ZonedDateTime timestamp;
 
-  public QSException(String message) {
+  public QSException(ErrorStatus status, String message) {
     super(message);
+    this.status = status;
     this.message = message;
     this.timestamp = ZonedDateTime.now();
   }
@@ -19,5 +21,9 @@ public class QSException extends RuntimeException {
 
   public ZonedDateTime getTimestamp() {
     return timestamp;
+  }
+
+  public ErrorStatus getStatus() {
+    return status;
   }
 }

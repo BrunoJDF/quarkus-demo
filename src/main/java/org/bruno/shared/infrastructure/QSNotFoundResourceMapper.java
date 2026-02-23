@@ -7,7 +7,7 @@ import jakarta.ws.rs.ext.Provider;
 import org.bruno.shared.application.ErrorResponse;
 
 @Provider
-public class QSNotFoundMapper implements ExceptionMapper<NotFoundException> {
+public class QSNotFoundResourceMapper implements ExceptionMapper<NotFoundException> {
   @Override
   public Response toResponse(NotFoundException e) {
     return Response.status(Response.Status.NOT_FOUND)

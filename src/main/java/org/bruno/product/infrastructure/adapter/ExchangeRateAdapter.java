@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.bruno.product.domain.port.ExchangeRatePort;
 import org.bruno.product.infrastructure.client.ExchangeClient;
 import org.bruno.product.infrastructure.client.dto.ExchangeDTO;
+import org.bruno.shared.domain.exception.QSNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -40,12 +41,12 @@ public class ExchangeRateAdapter implements ExchangeRatePort {
   private BigDecimal getRateFromCurrency(Map<String, BigDecimal> rates, String currencyTarget) {
     return Optional.of(rates)
       .map(map -> map.get(currencyTarget))
-      .orElseThrow();
+      .orElseThrow(() -> new QSNotFoundException("Rate not found for currency: " + currencyTarget));
   }
 
   private Map<String, BigDecimal> getRates(ExchangeDTO exchangeDTO) {
     return Optional.ofNullable(exchangeDTO)
       .map(ExchangeDTO::conversion_rates)
-      .orElseThrow();
+      .orElseThrow(() -> new QSNotFoundException("Conversion rates not found for currency: " + exchangeDTO.conversion_rates()));
   }
 }
