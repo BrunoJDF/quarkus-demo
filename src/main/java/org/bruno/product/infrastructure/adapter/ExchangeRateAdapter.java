@@ -46,7 +46,12 @@ public class ExchangeRateAdapter implements ExchangeRatePort {
 
   private Map<String, BigDecimal> getRates(ExchangeDTO exchangeDTO) {
     return Optional.ofNullable(exchangeDTO)
-      .map(ExchangeDTO::conversion_rates)
-      .orElseThrow(() -> new QSNotFoundException("Conversion rates not found for currency: " + exchangeDTO.conversion_rates()));
+      .map(ExchangeDTO::conversionRates)
+      .orElseThrow(() -> {
+        Map<String, BigDecimal> conversionRate = Optional.ofNullable(exchangeDTO)
+          .map(ExchangeDTO::conversionRates)
+          .orElse(Map.of());
+        return new QSNotFoundException("Conversion rates not found for currency: " + conversionRate);
+      });
   }
 }

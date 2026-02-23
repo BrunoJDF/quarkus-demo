@@ -11,7 +11,6 @@
       level: INFO
       console:
         format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
-        enable: true
       category:
         "org.bruno.product":
           level: DEBUG # Logs de tu aplicación
@@ -32,6 +31,6 @@
         url: postgresql://localhost:5434/shopping-cart
     hibernate-orm:
       log:
-        sql: true
+        sql: false
       database:
         default-schema: shopping_cart
