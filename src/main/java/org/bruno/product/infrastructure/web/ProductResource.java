@@ -7,6 +7,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.bruno.product.application.ProductService;
@@ -33,8 +34,8 @@ public class ProductResource {
   }
 
   @GET
-  @Path("/name/{name}")
-  public ProductResponse getProductByName(@PathParam("name") String name) {
+  @Path("/name")
+  public ProductResponse getProductByName(@QueryParam("name") String name) {
     return productService.findByName(name);
   }
 
