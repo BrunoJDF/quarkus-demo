@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+  <changeSet id="001.3-migrate-column-id-all-tables-from-serial-to-bigserial" author="Bruno Diaz">
+    <comment>Migrate column id from serial to bigserial in all tables</comment>
+    <modifyDataType tableName="client" columnName="id" newDataType="bigserial"/>
+    <modifyDataType tableName="product" columnName="id" newDataType="bigserial"/>
+    <modifyDataType tableName="invoice" columnName="id" newDataType="bigserial"/>
+    <modifyDataType tableName="invoice" columnName="id_client" newDataType="bigserial"/>
+    <modifyDataType tableName="import_service_file" columnName="id" newDataType="bigserial"/>
+  </changeSet>
+</databaseChangeLog>
