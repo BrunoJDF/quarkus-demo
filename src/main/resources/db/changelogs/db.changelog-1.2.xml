@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+  <changeSet id="001.2-create-import-service-file" author="Bruno Diaz">
+    <comment>Create table import_service_file</comment>
+    <createTable tableName="import_service_file">
+      <column name="id" type="serial">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="filename" type="varchar(200)"/>
+      <column name="status" type="varchar(500)"/>
+      <column name="created_by" type="varchar(100)"/>
+      <column name="created_at" type="timestamp"/>
+      <column name="updated_by" type="varchar(100)"/>
+      <column name="updated_at" type="timestamp"/>
+      <column name="total_records" type="integer"/>
+      <column name="error_message" type="text"/>
+    </createTable>
+  </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  db-shopping-cart:
+    image: postgres:13
+    container_name: db-shopping-cart
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-root}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pwd}
+      POSTGRES_DB: ${POSTGRES_DB:-shopping-cart}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: always
+volumes:
+  postgres_data:
