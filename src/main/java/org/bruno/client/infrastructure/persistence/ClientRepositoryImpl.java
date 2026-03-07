@@ -28,4 +28,10 @@ public class ClientRepositoryImpl implements ClientRepository, PanacheRepository
         .firstResult()
         .map(ClientEntity::toDomain);
     }
+
+    @Override
+    public Uni<Void> create(Client toCreate) {
+      ClientEntity entity = ClientEntity.fromDomain(toCreate);
+      return persist(entity).replaceWithVoid();
+    }
 }

@@ -5,11 +5,13 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import org.bruno.client.application.ClientService;
+import org.bruno.client.application.command.CreateClientCommand;
 import org.bruno.client.application.response.ClientResponse;
+import org.bruno.client.infrastructure.web.request.CreateClientRequest;
 
 import java.util.List;
 
@@ -37,13 +39,14 @@ public class ClientResource {
     }
 
     @GET
-    @Path("/name/{name}")
-    public Uni<ClientResponse> getClientByName(@PathParam("name") String name) {
+    @Path("/name")
+    public Uni<ClientResponse> getClientByName(@QueryParam("name") String name) {
         return clientService.getClientByName(name);
     }
 
     @POST
-    public Uni<Void> createClient(ClientResponse clientRequest) {
-        return null;
+    public Uni<Void> createClient(CreateClientRequest clientRequest) {
+        CreateClientCommand command = clientRequest.create();
+        return clientService.createClient(command);
     }
 }

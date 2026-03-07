@@ -1,9 +1,13 @@
 package org.bruno.client.application;
 
 import io.quarkus.hibernate.reactive.panache.common.WithSession;
+import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
+
+import org.bruno.client.application.command.CreateClientCommand;
 import org.bruno.client.application.response.ClientResponse;
+import org.bruno.client.domain.Client;
 import org.bruno.client.domain.ClientRepository;
 
 import java.util.List;
@@ -30,5 +34,11 @@ public class ClientService {
     public Uni<ClientResponse> getClientByName(String name) {
         return clientRepository.findByName(name)
           .map(ClientResponse::fromDomain);
+    }
+
+    @WithTransaction
+    public Uni<Void> createClient(CreateClientCommand command) {
+        Client toCreate = command.toDomain();
+        return clientRepository.create(toCreate);
     }
 }
