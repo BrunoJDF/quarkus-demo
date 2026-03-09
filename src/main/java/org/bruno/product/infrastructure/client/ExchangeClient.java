@@ -6,7 +6,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.bruno.product.infrastructure.client.dto.ExchangeDTO;
-import org.bruno.product.infrastructure.filter.ClientLoggingFilter;
+import org.bruno.shared.infrastructure.filter.ClientLoggingFilter;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 

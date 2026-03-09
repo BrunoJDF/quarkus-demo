@@ -1,5 +1,7 @@
 package org.bruno.shared.domain.exception;
 
+import org.bruno.shared.domain.ErrorStatus;
+
 import java.time.ZonedDateTime;
 
 public class QSException extends RuntimeException {
