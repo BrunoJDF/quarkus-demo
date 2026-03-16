@@ -1,4 +1,4 @@
-package org.bruno.product.infrastructure.filter;
+package org.bruno.shared.infrastructure.filter;
 
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientRequestFilter;
@@ -13,17 +13,13 @@ public class ClientLoggingFilter implements ClientRequestFilter, ClientResponseF
 
   @Override
   public void filter(ClientRequestContext clientRequestContext) {
-    String message = String.format("Request: %s %s", clientRequestContext.getMethod(), clientRequestContext.getUri());
-    LOG.info(message);
-    String headers = String.format("Request Headers: %s", clientRequestContext.getHeaders());
-    LOG.debug(headers);
+    LOG.info(String.format("Request: %s %s", clientRequestContext.getMethod(), clientRequestContext.getUri()));
+    LOG.debug(String.format("Request Headers: %s", clientRequestContext.getHeaders()));
   }
 
   @Override
   public void filter(ClientRequestContext clientRequestContext, ClientResponseContext clientResponseContext) {
-    String message = String.format("Response: %s %s", clientRequestContext.getMethod(), clientRequestContext.getUri());
-    LOG.info(message);
-    String headers = String.format("Response Headers: %s", clientResponseContext.getHeaders());
-    LOG.debug(headers);
+    LOG.info(String.format("Response: %s %s", clientRequestContext.getMethod(), clientRequestContext.getUri()));
+    LOG.debug(String.format("Response Headers: %s", clientResponseContext.getHeaders()));
   }
 }

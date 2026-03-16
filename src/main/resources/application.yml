@@ -3,24 +3,23 @@
     rest-client:
       ex-change-client:
         url: https://v6.exchangerate-api.com
-        api-key: ${EXCHANGE_API_KEY:ed1c0b36a3aed7bf892a7012}
-        connect-timeout: 5000 # 5 segundos para establecer la conexion
-        read-timeout: 10000 # 10 segundos para leer la respuesta
-        scope: jakarta.inject.Singleton # Nivel de logging para el cliente REST
+        api-key: ${EXCHANGE_API_KEY:912bb8d2c776caf488beeeed}
+        coconnect-timeout: 5000 # 5 seconds to establish the connection
+        read-timeout: 10000 # 10 seconds to read the response
+        scope: jakarta.inject.Singleton # Scope for the REST client
     log:
       level: INFO
       console:
         format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
       category:
         "org.bruno.product":
-          level: DEBUG # Logs de tu aplicación
+          level: DEBUG # Logs from your application
         "org.bruno.product.infrastructure.client":
-          level: DEBUG # Logs del REST client
+          level: DEBUG # Logs from the REST client
         "io.quarkus.rest.client":
-          level: DEBUG # Logs internos del REST client
+          level: DEBUG # Internal logs from the REST client
         "org.jboss.resteasy.reactive.client":
-          level:
-          # Debugging detallado (request/response)
+          level: DEBUG # Detailed debugging (request/response)
     datasource:
       db-kind: postgresql
       username: root
@@ -37,3 +36,4 @@
     liquibase:
       migrate-at-start: true
       default-schema-name: shopping_cart
+      liquibase-schema-name: public
