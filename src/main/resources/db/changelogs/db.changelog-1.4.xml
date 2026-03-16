@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+  <changeSet id="001.4-add-new-table-invoice-item-and-add-currency-column-on-invoice-table" author="Bruno Diaz">
+    <comment>Add new table invoice_item and add currency column on invoice table</comment>
+    <addColumn tableName="invoice">
+      <column name="currency" type="varchar(10)"/>
+    </addColumn>
+    <createTable tableName="invoice_item">
+      <column name="id" type="bigserial">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="quantity" type="integer"/>
+      <column name="price" type="numeric"/>
+      <column name="id_invoice" type="bigserial">
+        <constraints foreignKeyName="fk_invoice_item_invoice" references="invoice(id)" nullable="false"/>
+      </column>
+      <column name="id_product" type="bigserial">
+        <constraints foreignKeyName="fk_invoice_item_product" references="product(id)" nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+</databaseChangeLog>
