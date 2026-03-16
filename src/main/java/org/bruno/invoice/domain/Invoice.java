@@ -1,19 +1,20 @@
 package org.bruno.invoice.domain;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Invoice {
-  private String id;
+  private Long id;
   private String customer;
-  private double amount;
+  private BigDecimal total;
   private String currency;
   private List<InvoiceItem> items;
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -25,12 +26,12 @@ public class Invoice {
     this.customer = customer;
   }
 
-  public double getAmount() {
-    return amount;
+  public BigDecimal getTotal() {
+    return total;
   }
 
-  public void setAmount(double amount) {
-    this.amount = amount;
+  public void setTotal(BigDecimal total) {
+    this.total = total;
   }
 
   public String getCurrency() {
