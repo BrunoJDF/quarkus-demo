@@ -13,6 +13,9 @@ import org.bruno.product.application.ProductService;
 import org.bruno.product.application.command.CreateProductCommand;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.infrastructure.web.request.CreateProductRequest;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import java.util.List;
 
@@ -38,6 +41,14 @@ public class ProductResource {
     return productService.findByName(name, source, target);
   }
 
+  @Operation(summary = "Create a new product")
+  @APIResponses({
+    @APIResponse(responseCode = "201", description = "Product created successfully"),
+    @APIResponse(
+      responseCode = "400",
+      description = "Invalid product data"
+    )
+  })
   @POST
   @Transactional
   public Response createProduct(CreateProductRequest product) {
