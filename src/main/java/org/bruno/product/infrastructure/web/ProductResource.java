@@ -15,7 +15,6 @@ import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.infrastructure.web.request.CreateProductRequest;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import java.util.List;
 
@@ -30,11 +29,16 @@ public class ProductResource {
     this.productService = productService;
   }
 
+  @Operation(summary = "Get all products")
+  @APIResponse(responseCode = "200", description = "List of products retrieved successfully")
   @GET
   public List<ProductResponse> getProducts() {
     return productService.findAll();
   }
 
+  @Operation(summary = "Get a product by name with currency conversion")
+  @APIResponse(responseCode = "200", description = "Product found and converted successfully")
+  @APIResponse(responseCode = "404", description = "Product not found")
   @GET
   @Path("/get-by-conversion")
   public ProductResponse getProductByName(@QueryParam("name") String name, @QueryParam("source") String source, @QueryParam("target") String target) {
@@ -42,13 +46,11 @@ public class ProductResource {
   }
 
   @Operation(summary = "Create a new product")
-  @APIResponses({
-    @APIResponse(responseCode = "201", description = "Product created successfully"),
-    @APIResponse(
-      responseCode = "400",
-      description = "Invalid product data"
-    )
-  })
+  @APIResponse(responseCode = "201", description = "Product created successfully")
+  @APIResponse(
+    responseCode = "400",
+    description = "Invalid product data"
+  )
   @POST
   @Transactional
   public Response createProduct(CreateProductRequest product) {
