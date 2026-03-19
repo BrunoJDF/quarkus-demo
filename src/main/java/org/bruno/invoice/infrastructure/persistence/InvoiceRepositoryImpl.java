@@ -6,6 +6,8 @@ import org.bruno.invoice.domain.Invoice;
 import org.bruno.invoice.domain.InvoiceRepository;
 import org.bruno.invoice.infrastructure.persistence.model.InvoiceEntity;
 
+import java.util.List;
+
 @ApplicationScoped
 public class InvoiceRepositoryImpl implements InvoiceRepository, PanacheRepository<InvoiceEntity> {
 
@@ -13,5 +15,12 @@ public class InvoiceRepositoryImpl implements InvoiceRepository, PanacheReposito
   public void save(Invoice invoice) {
     InvoiceEntity entity = InvoiceEntity.fromDomain(invoice);
     persist(entity);
+  }
+
+  @Override
+  public List<Invoice> findAllInvoice() {
+    return listAll().stream()
+      .map(InvoiceEntity::toDomain)
+      .toList();
   }
 }

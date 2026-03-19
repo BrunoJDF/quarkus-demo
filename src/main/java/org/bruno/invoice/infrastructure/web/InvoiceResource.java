@@ -2,6 +2,7 @@ package org.bruno.invoice.infrastructure.web;
 
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -9,8 +10,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.bruno.invoice.application.InvoiceService;
 import org.bruno.invoice.application.command.CreateInvoiceCommand;
+import org.bruno.invoice.application.response.InvoiceResponse;
 import org.bruno.invoice.infrastructure.web.request.CreateInvoiceRequest;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+
+import java.util.List;
 
 @Path("/invoices")
 @Produces(MediaType.APPLICATION_JSON)
@@ -31,5 +35,10 @@ public class InvoiceResource {
     CreateInvoiceCommand command = CreateInvoiceRequest.create(request);
     invoiceService.create(command);
     return Response.status(Response.Status.CREATED).build();
+  }
+
+  @GET
+  public List<InvoiceResponse> getInvoices() {
+    return invoiceService.findAll();
   }
 }

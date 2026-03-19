@@ -5,6 +5,7 @@ import org.bruno.client.domain.Client;
 import org.bruno.client.domain.ClientRepository;
 import org.bruno.invoice.application.command.CreateInvoiceCommand;
 import org.bruno.invoice.application.command.dto.CreateInvoiceItemDTO;
+import org.bruno.invoice.application.response.InvoiceResponse;
 import org.bruno.invoice.domain.Invoice;
 import org.bruno.invoice.domain.InvoiceItem;
 import org.bruno.invoice.domain.InvoiceRepository;
@@ -43,8 +44,8 @@ public class InvoiceService {
       .orElseThrow(() -> new QSNotFoundException("Client not found with name: " + command.customerName()));
     BigDecimal subTotalPrice = items.stream()
       .map(invoiceItem -> {
-        var price = invoiceItem.getProduct().getPrice();
-        var quantity = invoiceItem.getQuantity();
+        BigDecimal price = invoiceItem.getProduct().getPrice();
+        int quantity = invoiceItem.getQuantity();
         return price.multiply(BigDecimal.valueOf(quantity));
       })
       .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -80,4 +81,10 @@ public class InvoiceService {
       .toList();
   }
 
+  public List<InvoiceResponse> findAll() {
+    return invoiceRepository.findAllInvoice()
+      .stream()
+      .map(InvoiceResponse::fromDomain)
+      .toList();
+  }
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.bruno.invoice.domain.InvoiceItem;
 import org.bruno.product.infrastructure.persistence.model.ProductEntity;
 
 @Entity
@@ -54,6 +55,13 @@ public class InvoiceItemEntity {
 
   public void setProduct(ProductEntity product) {
     this.product = product;
+  }
+
+  public InvoiceItem toDomain() {
+    InvoiceItem invoiceItem = new InvoiceItem();
+    invoiceItem.setProduct(product.toDomain());
+    invoiceItem.setQuantity(quantity);
+    return invoiceItem;
   }
 
   public static class SQLInvoiceItem {

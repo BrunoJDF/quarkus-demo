@@ -186,6 +186,35 @@ public class InvoiceEntity {
     return entity;
   }
 
+  public Invoice toDomain() {
+    Invoice invoice = new Invoice();
+    invoice.setCodInvoice(codInvoice);
+    invoice.setSubTotalPrice(subTotalPrice);
+    invoice.setIgv(igv);
+    invoice.setTotalPrice(totalPrice);
+    invoice.setEmissionDate(emissionDate);
+    invoice.setExpirationDate(expirationDate);
+    invoice.setCreationDate(creationDate);
+    invoice.setModificationDate(modificationDate);
+    invoice.setStatus(status);
+    invoice.setCurrency(currency);
+
+    ClientEntity clientEntity = getClient();
+    if (clientEntity != null) {
+      invoice.setClient(clientEntity.toDomain());
+    }
+
+    List<InvoiceItemEntity> itemEntities = getItems();
+    if (itemEntities != null) {
+      List<org.bruno.invoice.domain.InvoiceItem> invoiceItems = itemEntities.stream()
+        .map(InvoiceItemEntity::toDomain)
+        .toList();
+      invoice.setItems(invoiceItems);
+    }
+
+    return invoice;
+  }
+
   public static class SQLInvoice {
     static final String TABLE_NAME = "invoice";
     public static final String COD_INVOICE = "cod_invoice";
