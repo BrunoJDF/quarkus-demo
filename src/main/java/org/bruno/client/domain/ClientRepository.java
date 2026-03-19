@@ -1,13 +1,12 @@
 package org.bruno.client.domain;
 
 import java.util.List;
-
-import io.smallrye.mutiny.Uni;
+import java.util.Optional;
 
 public interface ClientRepository {
-    Uni<List<Client>> findAllClients();
+  List<Client> findAllClients();
 
-    Uni<Client> findByName(String name);
+  Optional<Client> findByName(String name);
 
-    Uni<Void> create(Client toCreate);
+  void create(Client toCreate);
 }

@@ -4,19 +4,18 @@ import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
-
 import org.bruno.client.application.command.CreateClientCommand;
 import org.bruno.client.application.response.ClientResponse;
 import org.bruno.client.domain.Client;
-import org.bruno.client.domain.ClientRepository;
+import org.bruno.client.domain.ClientReactiveRepository;
 
 import java.util.List;
 
 @ApplicationScoped
 public class ClientService {
-    private final ClientRepository clientRepository;
+    private final ClientReactiveRepository clientRepository;
 
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientReactiveRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 

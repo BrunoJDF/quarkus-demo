@@ -1,5 +1,6 @@
 package org.bruno.invoice.infrastructure.web;
 
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -25,6 +26,7 @@ public class InvoiceResource {
   @APIResponse(responseCode = "201", description = "Invoice created successfully")
   @APIResponse(responseCode = "400", description = "Invalid request")
   @POST
+  @Transactional
   public Response createInvoice(CreateInvoiceRequest request) {
     CreateInvoiceCommand command = CreateInvoiceRequest.create(request);
     invoiceService.create(command);

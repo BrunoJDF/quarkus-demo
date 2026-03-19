@@ -39,38 +39,32 @@ public class InvoiceService {
   }
 
   private Invoice createInvoice(CreateInvoiceCommand command, List<InvoiceItem> items) {
-    try {
-      Client client = clientRepository.findByName(command.customerName())
-        .subscribeAsCompletionStage()
-        .get();
-      BigDecimal subTotalPrice = items.stream()
-        .map(invoiceItem -> {
-          var price = invoiceItem.getProduct().getPrice();
-          var quantity = invoiceItem.getQuantity();
-          return price.multiply(BigDecimal.valueOf(quantity));
-        })
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-      BigDecimal igv = subTotalPrice.multiply(BigDecimal.valueOf(IGV_ON_PE));
-      BigDecimal totalPrice = subTotalPrice.add(igv);
+    Client client = clientRepository.findByName(command.customerName())
+      .orElseThrow(() -> new QSNotFoundException("Client not found with name: " + command.customerName()));
+    BigDecimal subTotalPrice = items.stream()
+      .map(invoiceItem -> {
+        var price = invoiceItem.getProduct().getPrice();
+        var quantity = invoiceItem.getQuantity();
+        return price.multiply(BigDecimal.valueOf(quantity));
+      })
+      .reduce(BigDecimal.ZERO, BigDecimal::add);
+    BigDecimal igv = subTotalPrice.multiply(BigDecimal.valueOf(IGV_ON_PE));
+    BigDecimal totalPrice = subTotalPrice.add(igv);
 
-      Invoice invoice = new Invoice();
-      invoice.setCodInvoice("INV-" + System.currentTimeMillis());
-      invoice.setSubTotalPrice(subTotalPrice);
-      invoice.setIgv(igv);
-      invoice.setTotalPrice(totalPrice);
-      invoice.setStatus("CREATED");
-      invoice.setEmissionDate(OffsetDateTime.now());
-      invoice.setExpirationDate(null);
-      invoice.setCreationDate(OffsetDateTime.now());
-      invoice.setModificationDate(null);
-      invoice.setCurrency(command.currency());
+    Invoice invoice = new Invoice();
+    invoice.setCodInvoice("INV-" + System.currentTimeMillis());
+    invoice.setSubTotalPrice(subTotalPrice);
+    invoice.setIgv(igv);
+    invoice.setTotalPrice(totalPrice);
+    invoice.setStatus("CREATED");
+    invoice.setEmissionDate(OffsetDateTime.now());
+    invoice.setExpirationDate(null);
+    invoice.setCreationDate(OffsetDateTime.now());
+    invoice.setModificationDate(null);
+    invoice.setCurrency(command.currency());
 
-      invoice.setClient(client);
-      return invoice;
-    } catch (Exception e) {
-      Thread.currentThread().interrupt();
-      throw new QSNotFoundException("Client not found with name: " + command.customerName());
-    }
+    invoice.setClient(client);
+    return invoice;
   }
 
   private List<InvoiceItem> createInvoiceItem(List<CreateInvoiceItemDTO> items) {
