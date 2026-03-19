@@ -1,13 +1,16 @@
 package org.bruno.invoice.infrastructure.web.request;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.bruno.invoice.application.command.CreateInvoiceCommand;
 
 import java.util.List;
 
 public record CreateInvoiceRequest(
-  String customerName,
-  String currency,
-  List<CreateInvoiceItemRequest> items
+  @NotNull String customerName,
+  @NotNull String currency,
+  @NotEmpty @Valid List<CreateInvoiceItemRequest> items
 ) {
 
   public static CreateInvoiceCommand create(CreateInvoiceRequest request) {
