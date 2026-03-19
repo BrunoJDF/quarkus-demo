@@ -1,6 +1,8 @@
 package org.bruno.client.infrastructure.web;
 
 import io.smallrye.mutiny.Uni;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -40,12 +42,12 @@ public class ClientResource {
 
     @GET
     @Path("/name")
-    public Uni<ClientResponse> getClientByName(@QueryParam("name") String name) {
+    public Uni<ClientResponse> getClientByName(@QueryParam("name") @NotNull String name) {
         return clientService.getClientByName(name);
     }
 
     @POST
-    public Uni<Void> createClient(CreateClientRequest clientRequest) {
+    public Uni<Void> createClient(@Valid CreateClientRequest clientRequest) {
         CreateClientCommand command = clientRequest.create();
         return clientService.createClient(command);
     }

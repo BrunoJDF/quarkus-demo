@@ -4,7 +4,7 @@
       ex-change-client:
         url: https://v6.exchangerate-api.com
         api-key: ${EXCHANGE_API_KEY:912bb8d2c776caf488beeeed}
-        coconnect-timeout: 5000 # 5 seconds to establish the connection
+        connect-timeout: 5000 # 5 seconds to establish the connection
         read-timeout: 10000 # 10 seconds to read the response
         scope: jakarta.inject.Singleton # Scope for the REST client
     log:
