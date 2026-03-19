@@ -4,14 +4,12 @@ import org.bruno.invoice.application.command.dto.CreateInvoiceItemDTO;
 
 public record CreateInvoiceItemRequest(
   String description,
-  int quantity,
-  double unitPrice
+  int quantity
 ) {
   public static CreateInvoiceItemDTO create(CreateInvoiceItemRequest detail) {
     return new CreateInvoiceItemDTO(
       detail.description(),
-      detail.quantity(),
-      detail.unitPrice()
+      detail.quantity()
     );
   }
 }

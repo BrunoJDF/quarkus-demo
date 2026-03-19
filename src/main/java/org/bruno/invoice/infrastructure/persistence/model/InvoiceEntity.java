@@ -1,5 +1,6 @@
 package org.bruno.invoice.infrastructure.persistence.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,7 +46,7 @@ public class InvoiceEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_client", nullable = false)
   private ClientEntity client;
-  @OneToMany(mappedBy = "invoice")
+  @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<InvoiceItemEntity> items;
   @Column(name = SQLInvoice.CURRENCY)
   private String currency;
@@ -155,16 +156,6 @@ public class InvoiceEntity {
   }
 
   public static InvoiceEntity fromDomain(Invoice invoice) {
-    List<InvoiceItemEntity> details = invoice.getItems().stream()
-      .map(item -> {
-        InvoiceItemEntity entity = new InvoiceItemEntity();
-        ProductEntity product = ProductEntity.fromDomain(item.getProduct());
-        entity.setProduct(product);
-        entity.setQuantity(item.getQuantity());
-        return entity;
-      })
-      .toList();
-
     InvoiceEntity entity = new InvoiceEntity();
     entity.setCodInvoice(invoice.getCodInvoice());
     entity.setSubTotalPrice(invoice.getSubTotalPrice());
@@ -177,8 +168,21 @@ public class InvoiceEntity {
     entity.setStatus(invoice.getStatus());
     ClientEntity client = ClientEntity.fromDomain(invoice.getClient());
     entity.setClient(client);
-    entity.setItems(details);
     entity.setCurrency(invoice.getCurrency());
+
+    // Crear los items y establecer la relación bidireccional
+    List<InvoiceItemEntity> details = invoice.getItems().stream()
+      .map(item -> {
+        InvoiceItemEntity itemEntity = new InvoiceItemEntity();
+        ProductEntity product = ProductEntity.fromDomain(item.getProduct());
+        itemEntity.setProduct(product);
+        itemEntity.setQuantity(item.getQuantity());
+        itemEntity.setInvoice(entity);
+        return itemEntity;
+      })
+      .toList();
+
+    entity.setItems(details);
     return entity;
   }
 
