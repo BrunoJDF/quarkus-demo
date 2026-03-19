@@ -37,6 +37,7 @@ public class InvoiceResource {
     return Response.status(Response.Status.CREATED).build();
   }
 
+  @APIResponse(responseCode = "200", description = "List of invoices")
   @GET
   public List<InvoiceResponse> getInvoices() {
     return invoiceService.findAll();
