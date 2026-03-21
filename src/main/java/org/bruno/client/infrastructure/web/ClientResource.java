@@ -14,6 +14,8 @@ import org.bruno.client.application.ClientService;
 import org.bruno.client.application.command.CreateClientCommand;
 import org.bruno.client.application.response.ClientResponse;
 import org.bruno.client.infrastructure.web.request.CreateClientRequest;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import java.util.List;
 
@@ -28,24 +30,23 @@ public class ClientResource {
         this.clientService = clientService;
     }
 
+    @Operation(summary = "Get all clients")
+    @APIResponse(responseCode = "200", description = "List of clients retrieved successfully")
     @GET
     public Uni<List<ClientResponse>> getAllClients() {
         return clientService.getAllClients();
     }
 
-    @GET
-    @Path("/stream")
-    @Produces(MediaType.SERVER_SENT_EVENTS)
-    public Uni<List<ClientResponse>> streamAllClients() {
-        return null;
-    }
-
+    @Operation(summary = "Get a client by name")
+    @APIResponse(responseCode = "200", description = "Client found successfully")
     @GET
     @Path("/name")
     public Uni<ClientResponse> getClientByName(@QueryParam("name") @NotNull String name) {
         return clientService.getClientByName(name);
     }
 
+    @Operation(summary = "Create a new client")
+    @APIResponse(responseCode = "201", description = "Client created successfully")
     @POST
     public Uni<Void> createClient(@Valid CreateClientRequest clientRequest) {
         CreateClientCommand command = clientRequest.create();
