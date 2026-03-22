@@ -6,6 +6,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -42,5 +43,14 @@ public class InvoiceResource {
   @GET
   public List<InvoiceResponse> getInvoices() {
     return invoiceService.findAll();
+  }
+
+
+  @APIResponse(responseCode = "200", description = "Invoice found successfully")
+  @APIResponse(responseCode = "404", description = "Invoice not found")
+  @GET
+  @Path("/{id}")
+  public InvoiceResponse getInvoiceById(@PathParam("id") Long id) {
+    return invoiceService.findById(id);
   }
 }

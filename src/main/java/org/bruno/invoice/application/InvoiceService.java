@@ -82,9 +82,14 @@ public class InvoiceService {
   }
 
   public List<InvoiceResponse> findAll() {
-    return invoiceRepository.findAllInvoice()
-      .stream()
+    return invoiceRepository.getAll().stream()
       .map(InvoiceResponse::fromDomain)
       .toList();
+  }
+
+  public InvoiceResponse findById(Long id) {
+    return invoiceRepository.getById(id)
+      .map(InvoiceResponse::fromDomain)
+      .orElseThrow(() -> new QSNotFoundException("Invoice not found with id: " + id));
   }
 }
