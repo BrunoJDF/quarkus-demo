@@ -5,6 +5,7 @@ import org.bruno.invoice.application.response.dto.InvoiceItemDTO;
 import org.bruno.invoice.domain.Invoice;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public record InvoiceResponse(
@@ -36,5 +37,17 @@ public record InvoiceResponse(
       items,
       invoice.getCurrency()
     );
+  }
+
+  public BigDecimal getSubTotalPrice() {
+    return subTotalPrice.setScale(2, RoundingMode.HALF_UP);
+  }
+
+  public BigDecimal getIgv() {
+    return igv.setScale(2, RoundingMode.HALF_UP);
+  }
+
+  public BigDecimal getTotalPrice() {
+    return totalPrice.setScale(2, RoundingMode.HALF_UP);
   }
 }

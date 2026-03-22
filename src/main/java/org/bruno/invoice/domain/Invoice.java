@@ -12,7 +12,7 @@ public class Invoice {
   private BigDecimal subTotalPrice;
   private BigDecimal igv;
   private BigDecimal totalPrice;
-  private String status;
+  private InvoiceStatusEnum status;
   private OffsetDateTime emissionDate;
   private OffsetDateTime expirationDate;
   private OffsetDateTime creationDate;
@@ -61,11 +61,11 @@ public class Invoice {
     this.totalPrice = totalPrice;
   }
 
-  public String getStatus() {
+  public InvoiceStatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(InvoiceStatusEnum status) {
     this.status = status;
   }
 

@@ -3,6 +3,7 @@ package org.bruno.invoice.application.response.dto;
 import org.bruno.invoice.domain.InvoiceItem;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public record InvoiceItemDTO(
   String productName,
@@ -15,5 +16,9 @@ public record InvoiceItemDTO(
       invoiceItem.getQuantity(),
       invoiceItem.getProduct().getPrice()
     );
+  }
+
+  public BigDecimal getPrice() {
+    return price.setScale(2, RoundingMode.HALF_UP);
   }
 }

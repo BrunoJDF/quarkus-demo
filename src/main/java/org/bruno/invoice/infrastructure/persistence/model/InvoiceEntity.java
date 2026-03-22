@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import org.bruno.client.infrastructure.persistence.model.ClientEntity;
 import org.bruno.invoice.domain.Invoice;
+import org.bruno.invoice.domain.InvoiceStatusEnum;
 import org.bruno.product.infrastructure.persistence.model.ProductEntity;
 
 import java.math.BigDecimal;
@@ -165,7 +166,7 @@ public class InvoiceEntity {
     entity.setExpirationDate(invoice.getExpirationDate());
     entity.setCreationDate(invoice.getCreationDate());
     entity.setModificationDate(invoice.getModificationDate());
-    entity.setStatus(invoice.getStatus());
+    entity.setStatus(invoice.getStatus().name());
     ClientEntity client = ClientEntity.fromDomain(invoice.getClient());
     entity.setClient(client);
     entity.setCurrency(invoice.getCurrency());
@@ -196,7 +197,7 @@ public class InvoiceEntity {
     invoice.setExpirationDate(expirationDate);
     invoice.setCreationDate(creationDate);
     invoice.setModificationDate(modificationDate);
-    invoice.setStatus(status);
+    invoice.setStatus(InvoiceStatusEnum.valueOf(status));
     invoice.setCurrency(currency);
 
     ClientEntity clientEntity = getClient();

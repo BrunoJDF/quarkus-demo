@@ -9,6 +9,7 @@ import org.bruno.invoice.application.response.InvoiceResponse;
 import org.bruno.invoice.domain.Invoice;
 import org.bruno.invoice.domain.InvoiceItem;
 import org.bruno.invoice.domain.InvoiceRepository;
+import org.bruno.invoice.domain.InvoiceStatusEnum;
 import org.bruno.product.domain.Product;
 import org.bruno.product.domain.ProductRepository;
 import org.bruno.shared.domain.exception.QSNotFoundException;
@@ -53,11 +54,11 @@ public class InvoiceService {
     BigDecimal totalPrice = subTotalPrice.add(igv);
 
     Invoice invoice = new Invoice();
-    invoice.setCodInvoice("INV-" + System.currentTimeMillis());
+    invoice.setCodInvoice(InvoiceCodeFactory.generateCode());
     invoice.setSubTotalPrice(subTotalPrice);
     invoice.setIgv(igv);
     invoice.setTotalPrice(totalPrice);
-    invoice.setStatus("CREATED");
+    invoice.setStatus(InvoiceStatusEnum.CREATED);
     invoice.setEmissionDate(OffsetDateTime.now());
     invoice.setExpirationDate(null);
     invoice.setCreationDate(OffsetDateTime.now());
