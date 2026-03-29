@@ -14,7 +14,7 @@ public record ClientResponse(
   String status
 ) {
   public static ClientResponse fromDomain(Client client) {
-    String status = client.getStatus() != null ? client.getStatus().getDescription() : "INACTIVE";
+    String status = client.getStatus() != null ? client.getStatus().name() : "INACTIVE";
 
     return new ClientResponse(
       client.getId(),

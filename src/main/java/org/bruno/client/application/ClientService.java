@@ -12,6 +12,7 @@ import org.bruno.client.domain.ClientReactiveRepository;
 
 import java.util.List;
 
+@WithSession
 @ApplicationScoped
 public class ClientService {
   private final ClientReactiveRepository clientRepository;
@@ -20,7 +21,6 @@ public class ClientService {
     this.clientRepository = clientRepository;
   }
 
-  @WithSession
   public Uni<List<ClientResponse>> getAllClients() {
     return clientRepository.findAllClients()
         .map(clients -> clients.stream()
@@ -28,7 +28,6 @@ public class ClientService {
             .toList());
   }
 
-  @WithSession
   public Uni<ClientResponse> getClientByName(String name) {
     return clientRepository.findByName(name)
         .map(ClientResponse::fromDomain);
