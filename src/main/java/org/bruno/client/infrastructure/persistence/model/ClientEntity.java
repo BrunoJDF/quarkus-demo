@@ -8,6 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import java.util.Objects;
+import java.util.Optional;
+
 import org.bruno.client.domain.Client;
 import org.bruno.client.domain.ClientStatus;
 
@@ -129,7 +133,12 @@ public class ClientEntity {
     client.setId(this.id);
     client.setName(this.name);
     client.setLastName(this.lastName);
-    client.setFullName(this.fullName);
+    
+    String fullName = Optional.ofNullable(this.fullName)
+        .filter(Objects::nonNull)
+        .orElseGet(() -> buildFullName(this.name, this.lastName));
+    client.setFullName(fullName);
+    
     client.setRuc(this.ruc);
     client.setEmail(this.email);
     client.setPhone(this.phone);
@@ -143,12 +152,19 @@ public class ClientEntity {
     entity.setId(client.getId());
     entity.setName(client.getName());
     entity.setLastName(client.getLastName());
-    entity.setFullName(client.getFullName());
+
+    String fullName = buildFullName(client.getName(), client.getLastName());
+    entity.setFullName(fullName);
+
     entity.setRuc(client.getRuc());
     entity.setEmail(client.getEmail());
     entity.setPhone(client.getPhone());
     entity.setAddress(client.getAddress());
     entity.setStatus(client.getStatus());
     return entity;
+  }
+
+  private static String buildFullName(String name, String lastName) {
+    return String.format("%s %s", name, lastName);
   }
 }

@@ -4,6 +4,7 @@ import org.bruno.product.domain.Product;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 public record ProductResponse(
   Long id,
@@ -22,6 +23,8 @@ public record ProductResponse(
 
   @SuppressWarnings("unused")
   public BigDecimal getPriceConverted() {
-    return priceConverted.setScale(2, RoundingMode.UP);
+    return Optional.ofNullable(priceConverted)
+    .map(price -> price.setScale(2, RoundingMode.UP))
+    .orElse(BigDecimal.ZERO);
   }
 }
