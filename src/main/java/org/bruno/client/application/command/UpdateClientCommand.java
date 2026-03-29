@@ -2,16 +2,20 @@ package org.bruno.client.application.command;
 
 import org.bruno.client.domain.Client;
 
-public record CreateClientCommand(
-    String name,
-    String lastName,
-    String ruc,
-    String email,
-    String phone,
-    String address) {
+import jakarta.validation.constraints.NotNull;
 
+public record UpdateClientCommand(
+  @NotNull Long id,
+  String name,
+  String lastName,
+  String ruc,
+  String email,
+  String phone,
+  String address
+) {
   public Client toDomain() {
     Client client = new Client();
+    client.setId(id);
     client.setName(name);
     client.setLastName(lastName);
     client.setRuc(ruc);

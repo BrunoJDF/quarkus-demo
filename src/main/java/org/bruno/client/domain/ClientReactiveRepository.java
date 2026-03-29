@@ -10,4 +10,6 @@ public interface ClientReactiveRepository {
     Uni<Client> findByName(String name);
 
     Uni<Void> create(Client toCreate);
+
+    Uni<Void> update(Client toUpdate);
 }
