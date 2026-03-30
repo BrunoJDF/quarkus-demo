@@ -44,4 +44,9 @@ public class ClientService {
     Client toUpdate = command.toDomain();
     return clientRepository.update(toUpdate);
   }
+
+  public Uni<List<ClientResponse>> activateAllClients() {
+    return clientRepository.findAllClients()
+    
+  }
 }
