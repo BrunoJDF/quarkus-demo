@@ -45,8 +45,8 @@ public class ClientService {
     return clientRepository.update(toUpdate);
   }
 
-  public Uni<List<ClientResponse>> activateAllClients() {
-    return clientRepository.findAllClients()
-    
+  public Uni<List<UpdateClientCommand>> getAllClientsInactive(ClientSearchCriteria clientInactive) {
+    return clientRepository.findByCriteria(clientInactive)
+      .map(clients -> clients.stream().map(UpdateClientCommand::fromDomain).toList());
   }
 }

@@ -1,8 +1,8 @@
 package org.bruno.client.application.command;
 
-import org.bruno.client.domain.Client;
-
 import jakarta.validation.constraints.NotNull;
+import org.bruno.client.domain.Client;
+import org.bruno.client.domain.ClientStatus;
 
 public record UpdateClientCommand(
   @NotNull Long id,
@@ -11,7 +11,8 @@ public record UpdateClientCommand(
   String ruc,
   String email,
   String phone,
-  String address
+  String address,
+  ClientStatus status
 ) {
   public Client toDomain() {
     Client client = new Client();
@@ -22,6 +23,34 @@ public record UpdateClientCommand(
     client.setEmail(email);
     client.setPhone(phone);
     client.setAddress(address);
+    client.setStatus(status);
+
     return client;
+  }
+
+  public static UpdateClientCommand fromDomain(Client client) {
+    return new UpdateClientCommand(
+      client.getId(),
+      client.getName(),
+      client.getLastName(),
+      client.getRuc(),
+      client.getEmail(),
+      client.getPhone(),
+      client.getAddress(),
+      client.getStatus()
+    );
+  }
+
+  public UpdateClientCommand updateStatus(ClientStatus newStatus) {
+    return new UpdateClientCommand(
+      id,
+      name,
+      lastName,
+      ruc,
+      email,
+      phone,
+      address,
+      newStatus
+    );
   }
 }

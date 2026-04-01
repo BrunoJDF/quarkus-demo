@@ -18,6 +18,6 @@ public record CreateUpdateClientRequest(
   }
 
   public UpdateClientCommand update(Long id) {
-    return new UpdateClientCommand(id, name, lastName, ruc, email, phone, address);
+    return new UpdateClientCommand(id, name, lastName, ruc, email, phone, address, null);
   }
 }
