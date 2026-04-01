@@ -8,12 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import java.util.Objects;
-import java.util.Optional;
-
 import org.bruno.client.domain.Client;
 import org.bruno.client.domain.ClientStatus;
+
+import java.util.Optional;
 
 @Entity
 @Table(name = ClientEntity.SQLClient.TABLE_NAME)
@@ -133,12 +131,11 @@ public class ClientEntity {
     client.setId(this.id);
     client.setName(this.name);
     client.setLastName(this.lastName);
-    
-    String fullName = Optional.ofNullable(this.fullName)
-        .filter(Objects::nonNull)
-        .orElseGet(() -> buildFullName(this.name, this.lastName));
-    client.setFullName(fullName);
-    
+
+    String localFullName = Optional.ofNullable(this.fullName)
+      .orElseGet(() -> buildFullName(this.name, this.lastName));
+    client.setFullName(localFullName);
+
     client.setRuc(this.ruc);
     client.setEmail(this.email);
     client.setPhone(this.phone);
@@ -162,6 +159,21 @@ public class ClientEntity {
     entity.setAddress(client.getAddress());
     entity.setStatus(client.getStatus());
     return entity;
+  }
+
+  public static void updateFromDomain(ClientEntity client, Client toUpdate) {
+    client.setName(toUpdate.getName());
+    client.setLastName(toUpdate.getLastName());
+    client.setRuc(toUpdate.getRuc());
+    client.setEmail(toUpdate.getEmail());
+    client.setPhone(toUpdate.getPhone());
+    client.setAddress(toUpdate.getAddress());
+
+    String fullName = buildFullName(client.getName(), client.getLastName());
+    client.setFullName(fullName);
+
+    Optional.ofNullable(toUpdate.getStatus())
+      .ifPresent(client::setStatus);
   }
 
   private static String buildFullName(String name, String lastName) {

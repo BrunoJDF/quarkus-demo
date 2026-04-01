@@ -23,14 +23,14 @@ public class ClientService {
 
   public Uni<List<ClientResponse>> getAllClients() {
     return clientRepository.findAllClients()
-        .map(clients -> clients.stream()
-            .map(ClientResponse::fromDomain)
-            .toList());
+      .map(clients -> clients.stream()
+        .map(ClientResponse::fromDomain)
+        .toList());
   }
 
   public Uni<ClientResponse> getClientByName(String name) {
     return clientRepository.findByName(name)
-        .map(ClientResponse::fromDomain);
+      .map(ClientResponse::fromDomain);
   }
 
   @WithTransaction
