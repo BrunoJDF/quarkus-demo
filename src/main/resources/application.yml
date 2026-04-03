@@ -37,3 +37,9 @@
       migrate-at-start: true
       default-schema-name: shopping_cart
       liquibase-schema-name: public
+    cache:
+      caffeine:
+        "exchange-rates":
+          initial-capacity: 100
+          maximum-size: 500
+          expire-after-write: 1h

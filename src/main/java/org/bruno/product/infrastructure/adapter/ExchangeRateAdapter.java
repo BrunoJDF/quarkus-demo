@@ -1,5 +1,7 @@
 package org.bruno.product.infrastructure.adapter;
 
+import io.quarkus.cache.CacheKey;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.bruno.product.domain.port.ExchangeRatePort;
 import org.bruno.product.infrastructure.client.ExchangeClient;
@@ -29,7 +31,8 @@ public class ExchangeRateAdapter implements ExchangeRatePort {
   }
 
   @Override
-  public BigDecimal getConversionRate(String currencySource, String currencyTarget) {
+  @CacheResult(cacheName = "exchange-rates")
+  public BigDecimal getConversionRate(@CacheKey String currencySource, @CacheKey String currencyTarget) {
     ExchangeDTO exchangeDTO = exchangeClient.getExChangeDTO(apiKey, currencySource);
     Map<String, BigDecimal> rates = getRates(exchangeDTO);
     BigDecimal rate = getRateFromCurrency(rates, currencyTarget);
