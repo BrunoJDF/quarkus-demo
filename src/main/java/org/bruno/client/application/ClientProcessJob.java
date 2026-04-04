@@ -5,7 +5,7 @@ import io.quarkus.scheduler.Scheduled;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.bruno.client.application.command.UpdateClientCommand;
+import org.bruno.client.application.input.UpdateClientInput;
 import org.bruno.client.domain.ClientStatus;
 import org.jboss.logging.Logger;
 
@@ -25,8 +25,8 @@ public class ClientProcessJob {
     return clientService.getAllClientsInactive(clientCriteriaInactive)
       .onItem().transformToMulti(clients -> Multi.createFrom().iterable(clients))
       .onItem().transformToUniAndMerge(client -> {
-        UpdateClientCommand updateCommand = client.updateStatus(ClientStatus.ACTIVE);
-        return clientService.updateClient(updateCommand)
+        UpdateClientInput updateInput = client.updateStatus(ClientStatus.ACTIVE);
+        return clientService.updateClient(updateInput)
           .onItem().invoke(() ->
             LOGGER.info("Client with id " + client.id() + " activated successfully")
           )

@@ -18,7 +18,7 @@
 ## Nomenclatura
 - DTOs de entrada: `NombreEntidadRequest`
 - DTOs de salida: `NombreEntidadResponse`
-- DTOs de entrada para capa de aplicación: `NombreEntidadCommand`
+- DTOs de entrada para capa de aplicación: `NombreEntidadInput`
 - Clases de dominio: `NombreEntidad`
 
 ## Protocolo de Respuesta y Restricciones

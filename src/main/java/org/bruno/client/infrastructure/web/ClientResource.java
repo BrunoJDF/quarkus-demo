@@ -13,8 +13,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import org.bruno.client.application.ClientService;
-import org.bruno.client.application.command.CreateClientCommand;
-import org.bruno.client.application.command.UpdateClientCommand;
+import org.bruno.client.application.input.CreateClientInput;
+import org.bruno.client.application.input.UpdateClientInput;
 import org.bruno.client.application.response.ClientResponse;
 import org.bruno.client.infrastructure.web.request.CreateUpdateClientRequest;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -52,8 +52,8 @@ public class ClientResource {
   @APIResponse(responseCode = "201", description = "Client created successfully")
   @POST
   public Uni<Void> createClient(@Valid CreateUpdateClientRequest clientRequest) {
-    CreateClientCommand command = clientRequest.create();
-    return clientService.createClient(command);
+    CreateClientInput input = clientRequest.create();
+    return clientService.createClient(input);
   }
 
   @Operation(summary = "Update an existing client")
@@ -61,7 +61,7 @@ public class ClientResource {
   @PATCH
   @Path("/{id}")
   public Uni<Void> updateClient(@PathParam("id") Long id, @Valid CreateUpdateClientRequest clientRequest) {
-    UpdateClientCommand command = clientRequest.update(id);
-    return clientService.updateClient(command);
+    UpdateClientInput input = clientRequest.update(id);
+    return clientService.updateClient(input);
   }
 }

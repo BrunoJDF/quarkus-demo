@@ -1,8 +1,8 @@
-package org.bruno.client.application.command;
+package org.bruno.client.application.input;
 
 import org.bruno.client.domain.Client;
 
-public record CreateClientCommand(
+public record CreateClientInput(
     String name,
     String lastName,
     String ruc,

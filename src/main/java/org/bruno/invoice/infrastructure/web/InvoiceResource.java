@@ -11,7 +11,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.bruno.invoice.application.InvoiceService;
-import org.bruno.invoice.application.command.CreateInvoiceCommand;
+import org.bruno.invoice.application.input.CreateInvoiceInput;
 import org.bruno.invoice.application.response.InvoiceResponse;
 import org.bruno.invoice.infrastructure.web.request.CreateInvoiceRequest;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -34,8 +34,8 @@ public class InvoiceResource {
   @POST
   @Transactional
   public Response createInvoice(@Valid CreateInvoiceRequest request) {
-    CreateInvoiceCommand command = CreateInvoiceRequest.create(request);
-    invoiceService.create(command);
+    CreateInvoiceInput input = CreateInvoiceRequest.create(request);
+    invoiceService.create(input);
     return Response.status(Response.Status.CREATED).build();
   }
 

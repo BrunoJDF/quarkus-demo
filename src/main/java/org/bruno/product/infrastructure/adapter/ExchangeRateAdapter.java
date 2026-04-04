@@ -8,6 +8,8 @@ import org.bruno.product.infrastructure.client.ExchangeClient;
 import org.bruno.product.infrastructure.client.dto.ExchangeDTO;
 import org.bruno.shared.domain.exception.QSNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
@@ -31,6 +33,8 @@ public class ExchangeRateAdapter implements ExchangeRatePort {
   }
 
   @Override
+  @Timeout(2000)
+  @Retry(maxRetries = 1, delay = 1000)
   @CacheResult(cacheName = "exchange-rates")
   public BigDecimal getConversionRate(@CacheKey String currencySource, @CacheKey String currencyTarget) {
     ExchangeDTO exchangeDTO = exchangeClient.getExChangeDTO(apiKey, currencySource);

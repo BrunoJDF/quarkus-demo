@@ -1,7 +1,7 @@
 package org.bruno.product.application;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import org.bruno.product.application.command.CreateProductCommand;
+import org.bruno.product.application.input.CreateProductInput;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.domain.ProductRepository;
 import org.bruno.product.domain.port.ExchangeRatePort;
@@ -28,7 +28,7 @@ public class ProductService {
       .toList();
   }
 
-  public void save(CreateProductCommand product) {
+  public void save(CreateProductInput product) {
     productRepository.save(product.toDomain());
   }
 

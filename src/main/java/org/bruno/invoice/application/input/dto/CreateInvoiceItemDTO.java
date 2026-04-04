@@ -1,4 +1,4 @@
-package org.bruno.invoice.application.command.dto;
+package org.bruno.invoice.application.input.dto;
 
 public record CreateInvoiceItemDTO (
   String description,

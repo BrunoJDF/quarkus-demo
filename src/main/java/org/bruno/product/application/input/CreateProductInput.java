@@ -1,10 +1,10 @@
-package org.bruno.product.application.command;
+package org.bruno.product.application.input;
 
 import org.bruno.product.domain.Product;
 
 import java.math.BigDecimal;
 
-public record CreateProductCommand(
+public record CreateProductInput(
   String name,
   BigDecimal price
 ) {

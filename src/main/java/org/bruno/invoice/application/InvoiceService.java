@@ -3,8 +3,8 @@ package org.bruno.invoice.application;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.bruno.client.domain.Client;
 import org.bruno.client.domain.ClientRepository;
-import org.bruno.invoice.application.command.CreateInvoiceCommand;
-import org.bruno.invoice.application.command.dto.CreateInvoiceItemDTO;
+import org.bruno.invoice.application.input.CreateInvoiceInput;
+import org.bruno.invoice.application.input.dto.CreateInvoiceItemDTO;
 import org.bruno.invoice.application.response.InvoiceResponse;
 import org.bruno.invoice.domain.Invoice;
 import org.bruno.invoice.domain.InvoiceItem;
@@ -32,17 +32,17 @@ public class InvoiceService {
     this.clientRepository = clientRepository;
   }
 
-  public void create(CreateInvoiceCommand command) {
-    List<InvoiceItem> items = createInvoiceItem(command.items());
-    Invoice invoice = createInvoice(command, items);
+  public void create(CreateInvoiceInput input) {
+    List<InvoiceItem> items = createInvoiceItem(input.items());
+    Invoice invoice = createInvoice(input, items);
     invoice.setItems(items);
 
     invoiceRepository.save(invoice);
   }
 
-  private Invoice createInvoice(CreateInvoiceCommand command, List<InvoiceItem> items) {
-    Client client = clientRepository.findByName(command.customerName())
-      .orElseThrow(() -> new QSNotFoundException("Client not found with name: " + command.customerName()));
+  private Invoice createInvoice(CreateInvoiceInput input, List<InvoiceItem> items) {
+    Client client = clientRepository.findByName(input.customerName())
+      .orElseThrow(() -> new QSNotFoundException("Client not found with name: " + input.customerName()));
     BigDecimal subTotalPrice = items.stream()
       .map(invoiceItem -> {
         BigDecimal price = invoiceItem.getProduct().getPrice();
@@ -63,7 +63,7 @@ public class InvoiceService {
     invoice.setExpirationDate(null);
     invoice.setCreationDate(OffsetDateTime.now());
     invoice.setModificationDate(null);
-    invoice.setCurrency(command.currency());
+    invoice.setCurrency(input.currency());
 
     invoice.setClient(client);
     return invoice;

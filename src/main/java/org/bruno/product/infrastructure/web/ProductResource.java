@@ -10,7 +10,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.bruno.product.application.ProductService;
-import org.bruno.product.application.command.CreateProductCommand;
+import org.bruno.product.application.input.CreateProductInput;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.infrastructure.web.request.CreateProductRequest;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -54,7 +54,7 @@ public class ProductResource {
   @POST
   @Transactional
   public Response createProduct(CreateProductRequest product) {
-    CreateProductCommand request = CreateProductRequest.create(product);
+    CreateProductInput request = CreateProductRequest.create(product);
     productService.save(request);
     return Response.status(Response.Status.CREATED).build();
   }

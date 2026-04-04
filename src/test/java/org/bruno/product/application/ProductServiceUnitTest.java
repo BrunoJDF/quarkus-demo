@@ -1,7 +1,7 @@
 package org.bruno.product.application;
 
 import org.bruno.product.ProductUnitTestCase;
-import org.bruno.product.application.command.CreateProductCommand;
+import org.bruno.product.application.input.CreateProductInput;
 import org.bruno.product.domain.ProductRepository;
 import org.bruno.product.domain.port.ExchangeRatePort;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,8 +34,8 @@ class ProductServiceUnitTest extends ProductUnitTestCase {
 
   @Test
   void save() {
-    CreateProductCommand command = mock(CreateProductCommand.class);
-    Executable execution = () -> systemUnderTest.save(command);
+    CreateProductInput input = mock(CreateProductInput.class);
+    Executable execution = () -> systemUnderTest.save(input);
     assertDoesNotThrow(execution);
   }
 
