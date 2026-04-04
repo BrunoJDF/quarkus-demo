@@ -1,9 +1,11 @@
 package org.bruno.product.infrastructure.persistence;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.bruno.product.domain.Product;
+import org.bruno.test.PostgresTestResource;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -12,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @QuarkusTest
+@QuarkusTestResource(PostgresTestResource.class)
 class ProductRepositoryImplIT {
 
   @Inject
