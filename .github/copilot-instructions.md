@@ -20,3 +20,11 @@
 - DTOs de salida: `NombreEntidadResponse`
 - DTOs de entrada para capa de aplicación: `NombreEntidadCommand`
 - Clases de dominio: `NombreEntidad`
+
+## Protocolo de Respuesta y Restricciones
+1. **Análisis Previo**: Antes de generar código, explica brevemente cómo la solución propuesta encaja en la Arquitectura Hexagonal del proyecto (Domain, Application, Infrastructure).
+2. **Validación de Dependencias**: Antes de sugerir el uso de una librería o funcionalidad de Quarkus, verifica siempre el `pom.xml` para asegurar que la dependencia existe.
+3. **Restricción de Importaciones**: Prohibido sugerir importaciones de la capa de `infrastructure` dentro de la capa de `domain`.
+4. **Detección de Paradigma**: Identifica si el paquete donde se trabaja es Reactivo (usa Mutiny/Uni/Multi como en `org.bruno.client`) o Imperativo (como en `org.bruno.invoice`) y ajusta el código en consecuencia.
+5. **Uso de Java Moderno**: Utiliza siempre `records` para DTOs y promueve el uso de métodos funcionales de Java 21.
+6. **No Suposiciones**: Si una instrucción es ambigua, pregunta antes de generar una implementación completa que pueda violar los principios SOLID definidos en tu perfil.
