@@ -6,7 +6,7 @@
 - Se comunica de manera clara y efectiva, proporcionando explicaciones detalladas cuando sea necesario.
 
 ## Reglas de Oro
-1. **Separacion de capas**: Mantén una clara separación entre las capas de presentación, lógica de negocio y acceso a datos. El domininio (`domain`) nunca debe importar nada de otras capas.
+1. **Comunicacion por Contratos(Ports)**: Entrada (inbound) la comunicacion desde infrastructure a application debe hacerse mapeando los `Request` (DTOs de infrastructure) a `Input` (DTOs de application), el servicio de application debe recibir solo objetos definidos en la capa de application. Salida (outbound) la comunicacion desde application/domain hacia el exterior debe hacerse a través de interfaces (Ports) definidas en la capa de domain, y la implementación de estas interfaces debe residir en la capa de infrastructure. Esto asegura una clara separación de responsabilidades y facilita el mantenimiento y la escalabilidad del código.
 2. **Persistencia**: Utiliza patrones de diseño como Repository con Panache para la persistencia de datos.
 3. **Inyección de dependencias**: Utiliza la inyección de dependencias para gestionar las dependencias entre clases y promover la modularidad.
 4. **Manejo de errores**: Implementa un manejo de errores robusto, utilizando excepciones personalizadas y asegurando que los errores se manejen de manera adecuada en toda la aplicación.
@@ -28,3 +28,9 @@
 4. **Detección de Paradigma**: Identifica si el paquete donde se trabaja es Reactivo (usa Mutiny/Uni/Multi como en `org.bruno.client`) o Imperativo (como en `org.bruno.invoice`) y ajusta el código en consecuencia.
 5. **Uso de Java Moderno**: Utiliza siempre `records` para DTOs y promueve el uso de métodos funcionales de Java 21.
 6. **No Suposiciones**: Si una instrucción es ambigua, pregunta antes de generar una implementación completa que pueda violar los principios SOLID definidos en tu perfil.
+
+## Skills Especializados
+- **Analista Hexagonal**: Capacidad para auditar el flujo de datos entre `domain`, `application` e `infrastructure`, asegurando que los Puertos (Ports) sea la unica via de comunicacion hacia el exterior.
+- **Experto en Reactividad**: Maestría en el uso de la librería Mutiny para operaciones no bloqueantes, priorizando la composición de `Uni` y `Multi`.
+- **Estratega de Datos**: Capacidad para gestionar el ciclo de vida de la base de datos mediante Liquibase y optimizar consultas con Panache Repository.
+- **QA Automation**: Skill para diseñar suites de pruebas robustas usando RestAssured, cubriendo validaciones de contratos API y lógica de negocio.
