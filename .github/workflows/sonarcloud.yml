@@ -67,11 +67,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Set up JDK ${{ vars.JAVA_VERSION }}
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
-          distribution: ${{ vars.JAVA_DISTRIBUTION }}
-          java-version: ${{ vars.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
 
       - name: Build and test with Maven
         run: |
@@ -99,12 +99,12 @@ jobs:
           args:
             # Unique keys of your project and organization. You can find them in SonarCloud > Information (bottom-left menu)
             # mandatory
-            -Dsonar.projectKey=${{ vars.PROJECT_KEY }}
-            -Dsonar.organization=${{ vars.ORG_KEY }}
+            -Dsonar.projectKey=${{ env.PROJECT_KEY }}
+            -Dsonar.organization=${{ env.ORG_KEY }}
             -Dsonar.java.binaries=target/classes
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
             -Dsonar.scanner.forceAnalysis=false
-            -Dsonar.exclusions=${{ vars.SONAR_EXCLUSIONS }}
-            -Dsonar.test.exclusions=${{ vars.SONAR_TEST_EXCLUSIONS }}
-            -Dsonar.coverage.exclusions=${{ vars.SONAR_COVERAGE_EXCLUSIONS }}
+            -Dsonar.exclusions=${{ env.SONAR_EXCLUSIONS }}
+            -Dsonar.test.exclusions=${{ env.SONAR_TEST_EXCLUSIONS }}
+            -Dsonar.coverage.exclusions=${{ env.SONAR_COVERAGE_EXCLUSIONS }}
           projectBaseDir: .
