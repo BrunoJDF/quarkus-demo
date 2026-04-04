@@ -9,19 +9,15 @@ import org.bruno.invoice.application.response.InvoiceResponse;
 import org.bruno.invoice.domain.Invoice;
 import org.bruno.invoice.domain.InvoiceItem;
 import org.bruno.invoice.domain.InvoiceRepository;
-import org.bruno.invoice.domain.InvoiceStatusEnum;
 import org.bruno.product.domain.Product;
 import org.bruno.product.domain.ProductRepository;
 import org.bruno.shared.domain.exception.QSNotFoundException;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @ApplicationScoped
 public class InvoiceService {
 
-  private static final double IGV_ON_PE = 0.18;
   private final InvoiceRepository invoiceRepository;
   private final ProductRepository productRepository;
   private final ClientRepository clientRepository;
@@ -43,30 +39,7 @@ public class InvoiceService {
   private Invoice createInvoice(CreateInvoiceInput input, List<InvoiceItem> items) {
     Client client = clientRepository.findByName(input.customerName())
       .orElseThrow(() -> new QSNotFoundException("Client not found with name: " + input.customerName()));
-    BigDecimal subTotalPrice = items.stream()
-      .map(invoiceItem -> {
-        BigDecimal price = invoiceItem.getProduct().getPrice();
-        int quantity = invoiceItem.getQuantity();
-        return price.multiply(BigDecimal.valueOf(quantity));
-      })
-      .reduce(BigDecimal.ZERO, BigDecimal::add);
-    BigDecimal igv = subTotalPrice.multiply(BigDecimal.valueOf(IGV_ON_PE));
-    BigDecimal totalPrice = subTotalPrice.add(igv);
-
-    Invoice invoice = new Invoice();
-    invoice.setCodInvoice(InvoiceCodeFactory.generateCode());
-    invoice.setSubTotalPrice(subTotalPrice);
-    invoice.setIgv(igv);
-    invoice.setTotalPrice(totalPrice);
-    invoice.setStatus(InvoiceStatusEnum.CREATED);
-    invoice.setEmissionDate(OffsetDateTime.now());
-    invoice.setExpirationDate(null);
-    invoice.setCreationDate(OffsetDateTime.now());
-    invoice.setModificationDate(null);
-    invoice.setCurrency(input.currency());
-
-    invoice.setClient(client);
-    return invoice;
+    return InvoiceFactory.createInvoice(client, input.currency(), items);
   }
 
   private List<InvoiceItem> createInvoiceItem(List<CreateInvoiceItemDTO> items) {
@@ -74,10 +47,7 @@ public class InvoiceService {
       .map(invoiceItemDTO -> {
         Product product = productRepository.findByName(invoiceItemDTO.description())
           .orElseThrow(() -> new QSNotFoundException("Product not found with name: " + invoiceItemDTO.description()));
-        InvoiceItem createInvoiceItem = new InvoiceItem();
-        createInvoiceItem.setProduct(product);
-        createInvoiceItem.setQuantity(invoiceItemDTO.quantity());
-        return createInvoiceItem;
+        return InvoiceFactory.createInvoiceItem(product, invoiceItemDTO.quantity());
       })
       .toList();
   }
