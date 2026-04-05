@@ -44,7 +44,7 @@ class ProductServiceUnitTest extends ProductUnitTestCase {
     String name = "SampleProduct";
     String source = "USD";
     String target = "PEN";
-    Executable execution = () -> systemUnderTest.findByName(name, source, target);
+    Executable execution = () -> systemUnderTest.findByCriteriaAndPriceConverted(name, source, target);
     assertThrows(Exception.class, execution);
   }
 }

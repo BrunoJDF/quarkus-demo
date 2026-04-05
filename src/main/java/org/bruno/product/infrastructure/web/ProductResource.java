@@ -11,8 +11,10 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.bruno.product.application.ProductService;
 import org.bruno.product.application.input.CreateProductInput;
+import org.bruno.product.application.input.ProductSearchCriteriaInput;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.infrastructure.web.request.CreateProductRequest;
+import org.bruno.product.infrastructure.web.request.ProductSearchCriteriaRequest;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
@@ -36,21 +38,22 @@ public class ProductResource {
     return productService.findAll();
   }
 
-  @Operation(summary = "Get a product by name with currency conversion")
+  @Operation(summary = "Search products by criteria and convert price")
   @APIResponse(responseCode = "200", description = "Product found and converted successfully")
   @APIResponse(responseCode = "404", description = "Product not found")
-  @GET
-  @Path("/get-by-conversion")
-  public ProductResponse getProductByName(@QueryParam("name") String name, @QueryParam("source") String source, @QueryParam("target") String target) {
-    return productService.findByName(name, source, target);
+  @POST
+  @Path("/search-and-convert")
+  public List<ProductResponse> getProductByName(
+      ProductSearchCriteriaRequest criteria,
+      @QueryParam("source") String source,
+      @QueryParam("target") String target) {
+    ProductSearchCriteriaInput input = ProductSearchCriteriaRequest.create(criteria);
+    return productService.findByCriteriaAndPriceConverted(input, source, target);
   }
 
   @Operation(summary = "Create a new product")
   @APIResponse(responseCode = "201", description = "Product created successfully")
-  @APIResponse(
-    responseCode = "400",
-    description = "Invalid product data"
-  )
+  @APIResponse(responseCode = "400", description = "Invalid product data")
   @POST
   @Transactional
   public Response createProduct(CreateProductRequest product) {

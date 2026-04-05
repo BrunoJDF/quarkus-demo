@@ -38,7 +38,7 @@ class ProductResourceUnitTest extends ProductUnitTestCase {
     String source = "USD";
     String target = "PEN";
     ProductResponse productResponse = mock(ProductResponse.class);
-    when(productService.findByName(name, source, target))
+    when(productService.findByCriteriaAndPriceConverted(name, source, target))
       .thenReturn(productResponse);
     var res = systemUnderTest.getProductByName(name, source, target);
     assertNotNull(res);

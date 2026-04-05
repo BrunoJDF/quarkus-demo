@@ -2,18 +2,15 @@ package org.bruno.product.application;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import org.bruno.product.application.input.CreateProductInput;
+import org.bruno.product.application.input.ProductSearchCriteriaInput;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.domain.ProductRepository;
 import org.bruno.product.domain.port.ExchangeRatePort;
-import org.bruno.shared.domain.exception.QSNotFoundException;
-import org.jboss.logging.Logger;
-
 import java.math.BigDecimal;
 import java.util.List;
 
 @ApplicationScoped
 public class ProductService {
-  private static final Logger LOG = Logger.getLogger(ProductService.class);
   private final ProductRepository productRepository;
   private final ExchangeRatePort exchangeRatePort;
 
@@ -24,26 +21,26 @@ public class ProductService {
 
   public List<ProductResponse> findAll() {
     return productRepository.findAllProducts().parallelStream()
-      .map(ProductResponse::fromDomain)
-      .toList();
+        .map(ProductResponse::fromDomain)
+        .toList();
   }
 
   public void save(CreateProductInput product) {
     productRepository.save(product.toDomain());
   }
 
-  public ProductResponse findByName(String name, String source, String target) {
-    ProductResponse productResponse = productRepository.findByName(name)
-      .map(product -> {
-        BigDecimal conversionRate = exchangeRatePort.getConversionRate(source, target);
-        BigDecimal priceConverted = product.getPrice().multiply(conversionRate);
-        product.setPriceConverted(priceConverted);
-        return product;
-      })
-      .map(ProductResponse::fromDomain)
-      .orElseThrow(() -> new QSNotFoundException("Product not found with name: " + name));
-
-    LOG.info("Product found: " + productResponse);
+  public List<ProductResponse> findByCriteriaAndPriceConverted(ProductSearchCriteriaInput input, String source,
+      String target) {
+    List<ProductResponse> productResponse = productRepository.findAllByCriteria(input)
+        .parallelStream()
+        .map(product -> {
+          BigDecimal conversionRate = exchangeRatePort.getConversionRate(source, target);
+          BigDecimal priceConverted = product.getPrice().multiply(conversionRate);
+          product.setPriceConverted(priceConverted);
+          return product;
+        })
+        .map(ProductResponse::fromDomain)
+        .toList();
 
     return productResponse;
   }
