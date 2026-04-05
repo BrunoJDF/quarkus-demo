@@ -75,10 +75,7 @@ jobs:
 
       - name: Build and test with Maven
         run: |
-          mvn clean verify --batch-mode \
-            -Dtest='!*IntegrationTest*,!*AcceptanceTest*,!*UATest*' \
-            -DskipITs \
-            -DskipTests=false
+          mvn clean verify --batch-mode
 
       - name: Verify JaCoCo Report Generation
         run: |
