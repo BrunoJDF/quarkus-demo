@@ -1,6 +1,8 @@
 package org.bruno.user.infrastructure.persistence;
 
 import jakarta.enterprise.context.ApplicationScoped;
+
+import org.bruno.shared.domain.exception.QSNotFoundException;
 import org.bruno.user.domain.User;
 import org.bruno.user.domain.UserRepository;
 import org.bruno.user.infrastructure.persistence.model.UserEntity;
@@ -20,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository, PanacheRepository<Use
   public User getById(Long id) {
     return findByIdOptional(id)
         .map(UserEntity::toDomain)
-        .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        .orElseThrow(() -> new QSNotFoundException("User not found with id: " + id));
   }
 
 }

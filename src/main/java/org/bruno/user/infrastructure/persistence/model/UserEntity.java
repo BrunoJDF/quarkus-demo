@@ -3,6 +3,8 @@ package org.bruno.user.infrastructure.persistence.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.bruno.user.domain.User;
@@ -12,8 +14,11 @@ import org.bruno.user.domain.User;
 public class UserEntity {
 
   @Id
-  @Column(name = UserEntity.SQLUser.ID, nullable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   public Long id;
+
+  @Column(name = UserEntity.SQLUser.USERNAME)
+  public String username;
 
   @Column(name = UserEntity.SQLUser.NAME)
   public String name;
@@ -21,16 +26,23 @@ public class UserEntity {
   @Column(name = UserEntity.SQLUser.EMAIL)
   public String email;
 
-  public UserEntity(Long id, String name, String email) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-  }
+  @Column(name = UserEntity.SQLUser.TYPE)
+  public String type;
+
+  @Column(name = UserEntity.SQLUser.CREATED_AT)
+  public String createdAt;
+
+  @Column(name = UserEntity.SQLUser.UPDATED_AT)
+  public String updatedAt;
 
   private UserEntity(User domain) {
     this.id = domain.getId();
+    this.username = domain.getUsername();
     this.name = domain.getName();
     this.email = domain.getEmail();
+    this.type = domain.getType();
+    this.createdAt = domain.getCreatedAt();
+    this.updatedAt = domain.getUpdatedAt();
   }
 
   public static class SQLUser {
@@ -41,8 +53,12 @@ public class UserEntity {
     }
 
     public static final String ID = "id";
+    public static final String USERNAME = "username";
     public static final String NAME = "name";
     public static final String EMAIL = "email";
+    public static final String TYPE = "type";
+    public static final String CREATED_AT = "created_at";
+    public static final String UPDATED_AT = "updated_at";
   }
 
   public static UserEntity fromDomain(User user) {
@@ -53,6 +69,6 @@ public class UserEntity {
   }
 
   public User toDomain() {
-    return new User(id, name, email);
+    return new User(id, username, name, email, type, createdAt, updatedAt);
   }
 }
