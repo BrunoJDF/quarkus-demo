@@ -2,8 +2,10 @@ package org.bruno.product.infrastructure.web;
 
 import org.bruno.product.ProductUnitTestCase;
 import org.bruno.product.application.ProductService;
+import org.bruno.product.application.input.ProductSearchCriteriaInput;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.infrastructure.web.request.CreateProductRequest;
+import org.bruno.product.infrastructure.web.request.ProductSearchCriteriaRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,13 +36,14 @@ class ProductResourceUnitTest extends ProductUnitTestCase {
 
   @Test
   void getProductByName() {
-    String name = "SampleProduct";
+    ProductSearchCriteriaRequest request = new ProductSearchCriteriaRequest("Test", 1L);
+    ProductSearchCriteriaInput input = ProductSearchCriteriaRequest.create(request);
     String source = "USD";
     String target = "PEN";
     ProductResponse productResponse = mock(ProductResponse.class);
-    when(productService.findByCriteriaAndPriceConverted(name, source, target))
-      .thenReturn(productResponse);
-    var res = systemUnderTest.getProductByName(name, source, target);
+    when(productService.findByCriteriaAndPriceConverted(input, source, target))
+      .thenReturn(List.of(productResponse));
+    var res = systemUnderTest.getProductByName(request, source, target);
     assertNotNull(res);
   }
 

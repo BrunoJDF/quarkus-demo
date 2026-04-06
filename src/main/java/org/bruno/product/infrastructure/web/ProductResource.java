@@ -46,7 +46,8 @@ public class ProductResource {
   public List<ProductResponse> getProductByName(
       ProductSearchCriteriaRequest criteria,
       @QueryParam("source") String source,
-      @QueryParam("target") String target) {
+      @QueryParam("target") String target
+  ) {
     ProductSearchCriteriaInput input = ProductSearchCriteriaRequest.create(criteria);
     return productService.findByCriteriaAndPriceConverted(input, source, target);
   }

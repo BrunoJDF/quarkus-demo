@@ -2,6 +2,7 @@ package org.bruno.product.application;
 
 import org.bruno.product.ProductUnitTestCase;
 import org.bruno.product.application.input.CreateProductInput;
+import org.bruno.product.application.input.ProductSearchCriteriaInput;
 import org.bruno.product.domain.ProductRepository;
 import org.bruno.product.domain.port.ExchangeRatePort;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,10 +42,10 @@ class ProductServiceUnitTest extends ProductUnitTestCase {
 
   @Test
   void findByName() {
-    String name = "SampleProduct";
+    ProductSearchCriteriaInput input = new ProductSearchCriteriaInput("Test", 1L);
     String source = "USD";
     String target = "PEN";
-    Executable execution = () -> systemUnderTest.findByCriteriaAndPriceConverted(name, source, target);
+    Executable execution = () -> systemUnderTest.findByCriteriaAndPriceConverted(input, source, target);
     assertThrows(Exception.class, execution);
   }
 }
