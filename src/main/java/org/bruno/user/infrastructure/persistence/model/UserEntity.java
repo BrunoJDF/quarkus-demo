@@ -3,11 +3,16 @@ package org.bruno.user.infrastructure.persistence.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.bruno.user.domain.User;
+import org.bruno.user.domain.UserType;
+
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = UserEntity.SQLUser.TABLE_NAME)
@@ -26,14 +31,15 @@ public class UserEntity {
   @Column(name = UserEntity.SQLUser.EMAIL)
   public String email;
 
+  @Enumerated(EnumType.STRING)
   @Column(name = UserEntity.SQLUser.TYPE)
-  public String type;
+  public UserType type;
 
   @Column(name = UserEntity.SQLUser.CREATED_AT)
-  public String createdAt;
+  public OffsetDateTime createdAt;
 
   @Column(name = UserEntity.SQLUser.UPDATED_AT)
-  public String updatedAt;
+  public OffsetDateTime updatedAt;
 
   public UserEntity() {
   }
@@ -66,7 +72,7 @@ public class UserEntity {
 
   public static UserEntity fromDomain(User user) {
     if (user == null) {
-      return null;
+      throw new IllegalArgumentException("User cannot be null");
     }
     return new UserEntity(user);
   }

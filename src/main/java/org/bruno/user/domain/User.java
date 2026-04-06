@@ -1,16 +1,32 @@
 package org.bruno.user.domain;
 
+import java.time.OffsetDateTime;
+
 public class User {
   private Long id;
   private String username;
   private String name;
   private String email;
-  private String type;
-  private String createdAt;
-  private String updatedAt;
+  private UserType type;
+  private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
 
-  public User(Long id, String username, String name, String email, String type, String createdAt, String updatedAt) {
+  public User(
+    Long id, String username, String name, String email, UserType type,
+    OffsetDateTime createdAt, OffsetDateTime updatedAt
+  ) {
     this.id = id;
+    this.username = username;
+    this.name = name;
+    this.email = email;
+    this.type = type;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
+
+  public User(String username, String name, String email, UserType type,
+    OffsetDateTime createdAt, OffsetDateTime updatedAt
+  ) {
     this.username = username;
     this.name = name;
     this.email = email;
@@ -51,27 +67,27 @@ public class User {
     this.email = email;
   }
 
-  public String getType() {
+  public UserType getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(UserType type) {
     this.type = type;
   }
 
-  public String getCreatedAt() {
+  public OffsetDateTime getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(String createdAt) {
+  public void setCreatedAt(OffsetDateTime createdAt) {
     this.createdAt = createdAt;
   }
 
-  public String getUpdatedAt() {
+  public OffsetDateTime getUpdatedAt() {
     return updatedAt;
   }
 
-  public void setUpdatedAt(String updatedAt) {
+  public void setUpdatedAt(OffsetDateTime updatedAt) {
     this.updatedAt = updatedAt;
   }
 

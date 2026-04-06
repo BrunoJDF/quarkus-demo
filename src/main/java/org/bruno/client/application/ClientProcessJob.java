@@ -36,9 +36,6 @@ public class ClientProcessJob {
           );
       })
       .collect().asList()
-      .onItem().invoke(updatedClients ->
-        LOGGER.info("Total clients activated: " + updatedClients.size())
-      )
       .replaceWithVoid();
   }
 }

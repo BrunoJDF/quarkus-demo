@@ -1,5 +1,6 @@
 package org.bruno.user.infrastructure.web;
 
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -25,6 +26,7 @@ public class UserResource {
   }
 
   @POST
+  @Transactional
   public Response save(UserRequest request) {
     UserInput input = request.toInput();
     userService.save(input);

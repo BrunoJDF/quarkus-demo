@@ -1,11 +1,13 @@
 package org.bruno.user.application.input;
 
 import org.bruno.user.domain.User;
+import org.bruno.user.domain.UserType;
 
-public record UserInput(Long id, String username, String name, String email, String type, String createdAt,
-    String updatedAt) {
+import java.time.OffsetDateTime;
+
+public record UserInput(String username, String name, String email, UserType type) {
 
   public User toDomain() {
-    return new User(id, username, name, email, type, createdAt, updatedAt);
+    return new User(username, name, email, type, OffsetDateTime.now(), OffsetDateTime.now());
   }
 }
