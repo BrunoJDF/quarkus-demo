@@ -46,6 +46,6 @@ class ProductServiceUnitTest extends ProductUnitTestCase {
     String source = "USD";
     String target = "PEN";
     Executable execution = () -> systemUnderTest.findByCriteriaAndPriceConverted(input, source, target);
-    assertThrows(Exception.class, execution);
+    assertDoesNotThrow(execution);
   }
 }

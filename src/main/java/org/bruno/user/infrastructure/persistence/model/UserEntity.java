@@ -35,6 +35,9 @@ public class UserEntity {
   @Column(name = UserEntity.SQLUser.UPDATED_AT)
   public String updatedAt;
 
+  public UserEntity() {
+  }
+
   private UserEntity(User domain) {
     this.id = domain.getId();
     this.username = domain.getUsername();
