@@ -44,9 +44,9 @@ public class ProductResource {
   @POST
   @Path("/search-and-convert")
   public List<ProductResponse> getProductByName(
-      ProductSearchCriteriaRequest criteria,
-      @QueryParam("source") String source,
-      @QueryParam("target") String target
+    ProductSearchCriteriaRequest criteria,
+    @QueryParam("source") String source,
+    @QueryParam("target") String target
   ) {
     ProductSearchCriteriaInput input = ProductSearchCriteriaRequest.create(criteria);
     return productService.findByCriteriaAndPriceConverted(input, source, target);

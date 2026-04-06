@@ -24,7 +24,7 @@ public record ProductResponse(
   @SuppressWarnings("unused")
   public BigDecimal getPriceConverted() {
     return Optional.ofNullable(priceConverted)
-    .map(price -> price.setScale(2, RoundingMode.UP))
-    .orElse(BigDecimal.ZERO);
+      .map(price -> price.setScale(2, RoundingMode.UP))
+      .orElse(BigDecimal.ZERO);
   }
 }

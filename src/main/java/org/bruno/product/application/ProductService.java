@@ -6,6 +6,7 @@ import org.bruno.product.application.input.ProductSearchCriteriaInput;
 import org.bruno.product.application.response.ProductResponse;
 import org.bruno.product.domain.ProductRepository;
 import org.bruno.product.domain.port.ExchangeRatePort;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,27 +22,25 @@ public class ProductService {
 
   public List<ProductResponse> findAll() {
     return productRepository.findAllProducts().parallelStream()
-        .map(ProductResponse::fromDomain)
-        .toList();
+      .map(ProductResponse::fromDomain)
+      .toList();
   }
 
   public void save(CreateProductInput product) {
     productRepository.save(product.toDomain());
   }
 
-  public List<ProductResponse> findByCriteriaAndPriceConverted(ProductSearchCriteriaInput input, String source,
-      String target) {
-    List<ProductResponse> productResponse = productRepository.findAllByCriteria(input)
-        .parallelStream()
-        .map(product -> {
-          BigDecimal conversionRate = exchangeRatePort.getConversionRate(source, target);
-          BigDecimal priceConverted = product.getPrice().multiply(conversionRate);
-          product.setPriceConverted(priceConverted);
-          return product;
-        })
-        .map(ProductResponse::fromDomain)
-        .toList();
-
-    return productResponse;
+  public List<ProductResponse> findByCriteriaAndPriceConverted(
+    ProductSearchCriteriaInput input, String source, String target
+  ) {
+    return productRepository.findAllByCriteria(input)
+      .parallelStream()
+      .map(product -> {
+        BigDecimal conversionRate = exchangeRatePort.getConversionRate(source, target);
+        BigDecimal priceConverted = product.getPrice().multiply(conversionRate);
+        product.setPriceConverted(priceConverted);
+        return ProductResponse.fromDomain(product);
+      })
+      .toList();
   }
 }

@@ -20,15 +20,15 @@ public class ProductRepositoryImpl implements ProductRepository, PanacheReposito
   @Override
   public List<Product> findAllProducts() {
     return findAll().stream()
-        .map(ProductEntity::toDomain)
-        .toList();
+      .map(ProductEntity::toDomain)
+      .toList();
   }
 
   @Override
   public Optional<Product> findByName(String name) {
     return find(ProductEntity.SQLProduct.NAME, name)
-        .firstResultOptional()
-        .map(ProductEntity::toDomain);
+      .firstResultOptional()
+      .map(ProductEntity::toDomain);
   }
 
   @Override
@@ -52,8 +52,8 @@ public class ProductRepositoryImpl implements ProductRepository, PanacheReposito
     String whereClause = conditions.isEmpty() ? "" : " where " + String.join(" and ", conditions);
 
     return find(whereClause, params)
-        .stream()
-        .map(ProductEntity::toDomain)
-        .toList();
+      .stream()
+      .map(ProductEntity::toDomain)
+      .toList();
   }
 }

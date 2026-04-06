@@ -34,7 +34,7 @@ public class UserResource {
   @GET
   @Path("/{id}")
   public Response getById(@PathParam("id") Long id) {
-    UserResponse resp = userService.getById(id);
-    return Response.ok(resp).build();
+    UserResponse user = userService.getById(id);
+    return Response.ok(user).build();
   }
 }
