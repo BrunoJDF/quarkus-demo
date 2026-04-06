@@ -48,7 +48,7 @@ jobs:
     timeout-minutes: 20
     name: Scan repository for issues using SonarQube
     env:
-      PROJECT_KEY: BrunoJDF_quarkus-shopping-cart
+      PROJECT_KEY: BrunoJDF_quarkus-demo
       ORG_KEY: brunojdf
       JAVA_VERSION: '21'
       JAVA_DISTRIBUTION: 'temurin'
